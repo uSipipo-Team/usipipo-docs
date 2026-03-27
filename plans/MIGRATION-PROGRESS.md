@@ -1,7 +1,7 @@
 # Migration Progress - Monorepo to Multi-Repo
 
 **Date:** 2026-03-27
-**Status:** BACKEND 100% + TELEGRAM BOT 35% + INFRASTRUCTURE COMPLETE! 🎉
+**Status:** BACKEND 100% + TELEGRAM BOT 45% + INFRASTRUCTURE COMPLETE! 🎉
 **Branch:** `main` (backend) | `main` (telegram-bot) | `main` (commons) | `main` (landing)
 
 ---
@@ -13,15 +13,15 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - ✅ `usipipo-backend` - Backend API **v0.10.0** (100% features + auth invisible)
 - ✅ `usipipo-landing` - Landing Page (updated with pricing & bot links)
 - ✅ `usipipo-backend.wiki` - GitHub Wiki documentation (4 pages)
-- ✅ `usipipo-telegram-bot` - Bot **v0.4.0** (Auth + VPN Keys + Operations complete, Consumption next)
+- ✅ `usipipo-telegram-bot` - Bot **v0.5.0** (Auth + VPN Keys + Operations + Consumption complete!)
 - ⏳ `usipipo-miniapp-web` - Mini App (Pending)
 - ⏳ `usipipo-docs` - Documentation Portal (Planned after Bot)
 
 **Legacy Bot Migration:**
 - **Source:** `/home/mowgli/usipipobot/telegram_bot/` (92 Python files)
-- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.4.0)
-- **Progress:** ~35% (33/92 files migrated)
-- **Next:** Consumption Billing (Phase 4)
+- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.5.0)
+- **Progress:** ~45% (45/92 files migrated)
+- **Next:** Data Packages / Buy GB (Phase 5)
 - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md` for complete migration guide
 
 ---
@@ -48,6 +48,66 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - `pyproject.toml` (version bump to 0.10.0)
 
 **Release:** https://github.com/uSipipo-Team/usipipo-backend/releases/tag/v0.10.0
+
+---
+
+## 🎉 TELEGRAM BOT v0.5.0 (2026-03-27)
+
+### **Consumption Billing Complete + Invisible Authentication**
+
+**What's New in v0.5.0:**
+- ✅ **Consumption Billing System** - Pay-as-you-go consumption mode
+- ✅ **Commands:** `/consumo`, `/activar`, `/cancelar`, `/factura`
+- ✅ **Keyboards:** 12 inline keyboard layouts (state-aware menus)
+- ✅ **Messages:** 7 message categories with dynamic pricing
+- ✅ **Tests:** 45 new unit tests (150 total: 150 passed)
+- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
+
+**v0.5.0 Features:**
+- ✅ Consumption menu with 3 states (inactive/active/debt)
+- ✅ Activation flow with terms acceptance (2-step)
+- ✅ Cancellation flow with debt summary (2-step)
+- ✅ Status view with consumption stats (GB, cost, days)
+- ✅ Invoice listing with pagination
+- ✅ Dynamic pricing ($0.25/GB)
+- ✅ Redis token storage with auto-refresh
+- ✅ AuthHandler with invisible auth flow
+- ✅ Commands /me, /unlink, /keys, /newkey, /operaciones, /consumo
+- ✅ 45 new tests (150 total: 150 passed)
+- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
+- ✅ Pre-commit configuration
+- ✅ Branch protection enabled (admin bypass)
+- ✅ Integration tests with production backend
+
+**Files Created:**
+- `src/bot/handlers/consumption.py` (538 lines - ConsumptionHandler)
+- `src/bot/keyboards/consumption.py` (280 lines - 12 keyboards)
+- `src/bot/keyboards/messages_consumption.py` (337 lines - 7 message categories)
+- `tests/bot/test_consumption_handlers.py` (508 lines - 45 tests)
+
+**Files Modified:**
+- `src/main.py` (registered ConsumptionHandler + callback handlers)
+- `src/infrastructure/api_client.py` (added headers support)
+- `src/infrastructure/config.py` (added consumption pricing constants)
+- `CHANGELOG.md` (v0.5.0 release notes)
+- `pyproject.toml` (version bump to 0.5.0)
+
+**Backend Integration:**
+- `GET /api/v1/consumption/status` - Get consumption status
+- `GET /api/v1/consumption/status/can_activate` - Check activation eligibility
+- `POST /api/v1/consumption/activate` - Activate consumption mode
+- `GET /api/v1/consumption/status/can_cancel` - Check cancellation eligibility
+- `POST /api/v1/consumption/cancel` - Cancel consumption mode
+- `GET /api/v1/consumption/invoices/user/me` - Get user invoices
+
+**Releases:**
+- **v0.5.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.5.0
+- **v0.4.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
+- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
+- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
+- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
+
+**PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/7 (merged)
 
 ---
 

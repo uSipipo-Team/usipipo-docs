@@ -1,0 +1,29 @@
+# Code Owners para uSipipo Docs
+# https://help.github.com/articles/about-codeowners/
+
+# Dueños del repositorio (reciben review requests automáticamente)
+* @uSipipo-Team/developers
+
+# Documentación de Brand
+/brand/ @uSipipo-Team/developers
+
+# Documentación de Contexto
+/context/ @uSipipo-Team/developers
+
+# PRDs
+/prds/ @uSipipo-Team/developers
+
+# Flows
+/flows/ @uSipipo-Team/developers
+
+# Technology Stack
+/technology/ @uSipipo-Team/developers
+
+# API Documentation
+/apis/ @uSipipo-Team/developers
+
+# Guías principales
+/README.md @uSipipo-Team/developers
+/getting-started.md @uSipipo-Team/developers
+/glossary.md @uSipipo-Team/developers
+/changelog.md @uSipipo-Team/developers

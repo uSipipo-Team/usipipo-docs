@@ -3,7 +3,7 @@
 **Date:** 2026-03-28
 **Source:** `/home/mowgli/usipipobot/telegram_bot/` (Legacy Monorepo)
 **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (New Dedicated Repo)
-**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete → Phase 6 Complete
+**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete → Phase 6 Complete → Phase 7 Complete ✅
 
 ---
 
@@ -46,7 +46,10 @@
 │   │   │   ├── keys.py          ✅ NEW (VPN key management)
 │   │   │   ├── operations.py    ✅ NEW (operations menu)
 │   │   │   ├── consumption.py   ✅ NEW (consumption billing)
-│   │   │   └── packages.py      ✅ NEW (data packages)
+│   │   │   ├── packages.py      ✅ NEW (data packages)
+│   │   │   ├── payments.py      ✅ NEW (payments + subscriptions)
+│   │   │   ├── referrals.py     ✅ NEW (referrals system)
+│   │   │   └── tickets.py       ✅ NEW (tickets system)
 │   │   └── keyboards/
 │   │       ├── main.py          ✅ MIGRATED
 │   │       ├── auth.py          ✅ NEW
@@ -65,7 +68,7 @@
 │       ├── token_storage.py     ✅ NEW (TokenStorage)
 │       ├── error_handler.py     ✅ MIGRATED
 │       └── logger.py            ✅ MIGRATED
-├── tests/                       ✅ 160 tests (160 passed)
+├── tests/                       ✅ 323 tests (319 passed)
 ├── .github/workflows/ci.yml     ✅ NEW (CI/CD)
 └── .pre-commit-config.yaml      ✅ NEW
 ```
@@ -303,8 +306,9 @@
 ---
 
 ### **Priority 8: Referrals (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)  
-**Files to Migrate:** 4  
+**Complexity:** ⭐⭐⭐ (Medium)
+**Files to Migrate:** 4
+**Status:** ✅ **Complete**
 
 | Legacy File | New File | Priority |
 |-------------|----------|----------|
@@ -317,15 +321,17 @@
 
 **Backend Integration:**
 - `GET /api/v1/referrals/me` - Get referral stats
-- `GET /api/v1/referrals/link` - Get referral link
+- `POST /api/v1/referrals/apply` - Apply referral code
+- `POST /api/v1/referrals/redeem` - Redeem credits
 
 **Estimated Effort:** 4-6 hours
 
 ---
 
 ### **Priority 9: Tickets/Support (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)  
-**Files to Migrate:** 6  
+**Complexity:** ⭐⭐⭐ (Medium)
+**Files to Migrate:** 6
+**Status:** ✅ **Complete**
 
 | Legacy File | New File | Priority |
 |-------------|----------|----------|
@@ -341,6 +347,8 @@
 **Backend Integration:**
 - `GET /api/v1/tickets` - List tickets
 - `POST /api/v1/tickets` - Create ticket
+- `GET /api/v1/tickets/{id}` - Get ticket details
+- `PATCH /api/v1/tickets/{id}/close` - Close ticket
 
 **Estimated Effort:** 4-6 hours
 
@@ -385,25 +393,13 @@
 - [x] Tests (103 tests)
 - **Status:** COMPLETE
 
-### **Phase 7: Referrals + Tickets** (Next)
-- [ ] Migrate referrals
-- [ ] Migrate tickets
-- [ ] End-to-end testing
-- **Estimated:** 8-12 hours
+### **Phase 7: Referrals + Tickets** ✅
+- [x] Migrate referrals
+- [x] Migrate tickets
+- [x] End-to-end testing
+- **Status:** COMPLETE (v0.8.0)
 
-### **Phase 5: Payments + Subscriptions** (Medium Term)
-- [ ] Migrate payments (crypto + stars)
-- [ ] Migrate subscriptions
-- [ ] Webhook integration testing
-- **Estimated:** 14-18 hours
-
-### **Phase 6: Referrals + Tickets** (Long Term)
-- [ ] Migrate referrals
-- [ ] Migrate tickets
-- [ ] End-to-end testing
-- **Estimated:** 8-12 hours
-
-### **Phase 7: Admin Panel** (Final)
+### **Phase 8: Admin Panel** (Final)
 - [ ] Migrate admin handlers
 - [ ] Admin access control middleware
 - [ ] Admin dashboard
@@ -421,9 +417,9 @@
 | **Phase 4** | **Consumption Billing** | 10 | ✅ Complete | 100% |
 | **Phase 5** | **Data Packages** | 10 | ✅ Complete | 100% |
 | **Phase 6** | **Payments + Subscriptions** | 14 | ✅ Complete | 100% |
-| **Phase 7** | **Referrals + Tickets** | 10 | ⏳ Planned | 0% |
+| **Phase 7** | **Referrals + Tickets** | 10 | ✅ Complete | 100% |
 | **Phase 8** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~65%** |
+| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~75%** |
 
 ---
 
@@ -461,5 +457,8 @@
 ---
 
 **Last Updated:** 2026-03-28
-**Next Phase:** Referrals + Tickets (Phase 7)
-**Estimated Total Effort Remaining:** 24-36 hours
+**Next Phase:** Admin Panel (Phase 8)
+**Estimated Total Effort Remaining:** 16-20 hours
+**Release:** v0.8.0 - Referrals + Tickets Complete ✅
+**Tests:** 323 tests (319 passed)
+**Migration Progress:** 75% complete (68/92 files)

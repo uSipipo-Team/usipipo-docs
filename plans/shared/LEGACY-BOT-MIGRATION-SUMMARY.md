@@ -3,7 +3,7 @@
 **Date:** 2026-03-28
 **Source:** `/home/mowgli/usipipobot/telegram_bot/` (Legacy Monorepo)
 **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (New Dedicated Repo)
-**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete
+**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete → Phase 6 Complete
 
 ---
 
@@ -374,27 +374,22 @@
 
 ## 📋 Migration Roadmap
 
-### **Phase 4: Consumption Billing** ✅
-- [x] Migrate consumption billing handlers
-- [x] Migrate consumption keyboards
-- [x] Migrate consumption messages
-- [x] Integration with backend consumption endpoints
-- [x] Tests (45 tests)
+### **Phase 6: Payments + Subscriptions** ✅
+- [x] Migrate payments handlers (crypto + stars)
+- [x] Migrate payments keyboards
+- [x] Migrate payments messages
+- [x] Migrate subscriptions handlers
+- [x] Migrate subscriptions keyboards
+- [x] Migrate subscriptions messages
+- [x] Integration with backend payments/subscriptions endpoints
+- [x] Tests (103 tests)
 - **Status:** COMPLETE
 
-### **Phase 5: Data Packages** ✅
-- [x] Migrate data packages handlers
-- [x] Migrate data packages keyboards
-- [x] Migrate data packages messages
-- [x] Integration with backend data packages endpoints
-- [x] Tests (55 tests)
-- **Status:** COMPLETE
-
-### **Phase 6: Payments + Subscriptions** (Next)
-- [ ] Migrate payments (crypto + stars)
-- [ ] Migrate subscriptions
-- [ ] Webhook integration testing
-- **Estimated:** 14-18 hours
+### **Phase 7: Referrals + Tickets** (Next)
+- [ ] Migrate referrals
+- [ ] Migrate tickets
+- [ ] End-to-end testing
+- **Estimated:** 8-12 hours
 
 ### **Phase 5: Payments + Subscriptions** (Medium Term)
 - [ ] Migrate payments (crypto + stars)
@@ -425,10 +420,10 @@
 | **Phase 3** | **Operations + Profile** | 8 | ✅ Complete | 100% |
 | **Phase 4** | **Consumption Billing** | 10 | ✅ Complete | 100% |
 | **Phase 5** | **Data Packages** | 10 | ✅ Complete | 100% |
-| **Phase 6** | **Payments + Subscriptions** | 14 | ⏳ Planned | 0% |
+| **Phase 6** | **Payments + Subscriptions** | 14 | ✅ Complete | 100% |
 | **Phase 7** | **Referrals + Tickets** | 10 | ⏳ Planned | 0% |
 | **Phase 8** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~55%** |
+| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~65%** |
 
 ---
 
@@ -466,5 +461,5 @@
 ---
 
 **Last Updated:** 2026-03-28
-**Next Phase:** Payments + Subscriptions (Phase 6)
-**Estimated Total Effort Remaining:** 34-48 hours
+**Next Phase:** Referrals + Tickets (Phase 7)
+**Estimated Total Effort Remaining:** 24-36 hours

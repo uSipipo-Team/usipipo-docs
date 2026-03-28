@@ -1,7 +1,7 @@
 # Migration Progress - Monorepo to Multi-Repo
 
-**Date:** 2026-03-27
-**Status:** BACKEND 100% + TELEGRAM BOT 45% + INFRASTRUCTURE COMPLETE! 🎉
+**Date:** 2026-03-28
+**Status:** BACKEND 100% + TELEGRAM BOT 55% + INFRASTRUCTURE COMPLETE! 🎉
 **Branch:** `main` (backend) | `main` (telegram-bot) | `main` (commons) | `main` (landing)
 
 ---
@@ -13,15 +13,15 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - ✅ `usipipo-backend` - Backend API **v0.10.0** (100% features + auth invisible)
 - ✅ `usipipo-landing` - Landing Page (updated with pricing & bot links)
 - ✅ `usipipo-backend.wiki` - GitHub Wiki documentation (4 pages)
-- ✅ `usipipo-telegram-bot` - Bot **v0.5.0** (Auth + VPN Keys + Operations + Consumption complete!)
+- ✅ `usipipo-telegram-bot` - Bot **v0.6.0** (Auth + VPN Keys + Operations + Consumption + Data Packages complete!)
 - ⏳ `usipipo-miniapp-web` - Mini App (Pending)
 - ⏳ `usipipo-docs` - Documentation Portal (Planned after Bot)
 
 **Legacy Bot Migration:**
 - **Source:** `/home/mowgli/usipipobot/telegram_bot/` (92 Python files)
-- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.5.0)
-- **Progress:** ~45% (45/92 files migrated)
-- **Next:** Data Packages / Buy GB (Phase 5)
+- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.6.0)
+- **Progress:** ~55% (50/92 files migrated)
+- **Next:** Payments + Subscriptions (Phase 6)
 - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md` for complete migration guide
 
 ---
@@ -48,6 +48,69 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - `pyproject.toml` (version bump to 0.10.0)
 
 **Release:** https://github.com/uSipipo-Team/usipipo-backend/releases/tag/v0.10.0
+
+---
+
+## 🎉 TELEGRAM BOT v0.6.0 (2026-03-28)
+
+### **Data Packages Complete + Payment Integration**
+
+**What's New in v0.6.0:**
+- ✅ **Data Packages System** - Buy GB data packages with flexible payment
+- ✅ **Commands:** `/comprar`, `/paquetes`, `/packages`
+- ✅ **Payment Methods:** Telegram Stars + Crypto (USDT)
+- ✅ **Keyboards:** 10+ inline keyboard layouts
+- ✅ **Messages:** 6 message categories with package details
+- ✅ **Tests:** 55 new unit tests (160 total: 160 passed)
+- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
+
+**v0.6.0 Features:**
+- ✅ Package selection menu (4 tiers: Small/Medium/Large/XL)
+- ✅ Telegram Stars payment flow with invoices
+- ✅ Crypto payment flow via TronDealer
+- ✅ Data slots management
+- ✅ Data usage summary display
+- ✅ Pre-checkout validation
+- ✅ Successful payment handling
+- ✅ Redis token storage with auto-refresh
+- ✅ AuthHandler with invisible auth flow
+- ✅ Commands /me, /unlink, /keys, /newkey, /operaciones, /consumo
+- ✅ 55 new tests (160 total: 160 passed)
+- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
+- ✅ Pre-commit configuration
+- ✅ Branch protection enabled (admin bypass)
+- ✅ Integration tests with production backend
+
+**Files Created:**
+- `src/bot/handlers/packages.py` (858 lines - PackagesHandler)
+- `src/bot/keyboards/packages.py` (211 lines - 10+ keyboards)
+- `src/bot/keyboards/messages_packages.py` (245 lines - 6 message categories)
+- `tests/bot/test_packages_handlers.py` (722 lines - 55 tests)
+
+**Files Modified:**
+- `src/main.py` (registered PackagesHandler + payment handlers)
+- `CHANGELOG.md` (v0.6.0 release notes)
+- `pyproject.toml` (version bump to 0.6.0)
+
+**Backend Integration:**
+- `GET /api/v1/data-packages` - List available packages
+- `POST /api/v1/payments/stars` - Create Stars payment
+- `POST /api/v1/payments/stars/activate` - Activate after payment
+- `POST /api/v1/payments/crypto` - Create crypto payment
+- `GET /api/v1/payments/crypto/{id}/status` - Check payment status
+- `GET /api/v1/users/me/data-summary` - Get user data usage
+- `GET /api/v1/users/me/slots` - Get user's data slots
+- `POST /api/v1/users/me/slots` - Buy extra slot
+
+**Releases:**
+- **v0.6.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.6.0
+- **v0.5.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.5.0
+- **v0.4.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
+- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
+- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
+- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
+
+**PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/8 (merged)
 
 ---
 

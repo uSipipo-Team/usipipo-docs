@@ -3,7 +3,20 @@
 **Date:** 2026-03-28
 **Source:** `/home/mowgli/usipipobot/telegram_bot/` (Legacy Monorepo)
 **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (New Dedicated Repo)
-**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete → Phase 6 Complete → Phase 7 Complete ✅
+**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete → Phase 6 Complete → Phase 7 Complete → **Phase 8: Tickets Migration to Support Bot** ✅
+
+---
+
+## 🎉 MIGRATION COMPLETE - MULTI-BOT ARCHITECTURE
+
+### **Current Architecture (2026-03-28)**
+
+The uSipipo ecosystem now uses a **multi-bot architecture** with specialized bots:
+
+| Bot | Handle | Version | Purpose | Status |
+|-----|--------|---------|---------|--------|
+| **Main Bot** | `@usipipobot` | v0.9.0 | VPN, Payments, Subscriptions, etc. | ✅ Production |
+| **Support Bot** | `@uSipipoSupport_Bot` | v0.1.0 | Support Tickets | ✅ Production |
 
 ---
 
@@ -13,401 +26,120 @@
 ```
 /home/mowgli/usipipobot/telegram_bot/
 ├── common/                      ← Shared utilities
-│   ├── base_handler.py
-│   ├── decorators.py
-│   ├── keyboards.py
-│   └── messages.py
 ├── features/                    ← Feature modules
-│   ├── admin/                   ← Admin panel (14 files)
-│   ├── admin_vpn/               ← VPN admin (10 files)
-│   ├── basic_commands/          ← Basic commands ✅ MIGRATED
-│   ├── buy_gb/                  ← Data packages (10 files)
-│   ├── consumption/             ← Consumption billing (10 files)
-│   ├── key_management/          ← User VPN keys (8 files)
-│   ├── operations/              ← Operations menu
-│   ├── payments/                ← Payments (crypto + stars)
-│   ├── profile/                 ← User profile
-│   ├── referrals/               ← Referral system
-│   ├── subscriptions/           ← Subscription management
-│   └── tickets/                 ← Support tickets
-├── handlers/                    ← Main handlers
-├── keyboards/                   ← Main keyboards
-└── main.py                      ← Entry point
+│   ├── basic_commands/          ✅ MIGRATED
+│   ├── key_management/          ✅ MIGRATED
+│   ├── operations/              ✅ MIGRATED
+│   ├── consumption/             ✅ MIGRATED
+│   ├── buy_gb/                  ✅ MIGRATED
+│   ├── payments/                ✅ MIGRATED
+│   ├── subscriptions/           ✅ MIGRATED
+│   ├── referrals/               ✅ MIGRATED
+│   ├── tickets/                 ✅ MIGRATED → @uSipipoSupport_Bot
+│   └── admin/                   ⏳ Planned
+└── main.py
 ```
 
-### **New Bot Structure**
+### **New Bot Structure (Multi-Bot)**
+
+#### **Main Bot (@usipipobot)**
 ```
 /home/mowgli/usipipo/usipipo-telegram-bot/
 ├── src/
 │   ├── bot/
 │   │   ├── handlers/
-│   │   │   ├── basic.py         ✅ MIGRATED (from basic_commands)
-│   │   │   ├── auth.py          ✅ NEW (invisible auth)
-│   │   │   ├── keys.py          ✅ NEW (VPN key management)
-│   │   │   ├── operations.py    ✅ NEW (operations menu)
-│   │   │   ├── consumption.py   ✅ NEW (consumption billing)
-│   │   │   ├── packages.py      ✅ NEW (data packages)
-│   │   │   ├── payments.py      ✅ NEW (payments + subscriptions)
-│   │   │   ├── referrals.py     ✅ NEW (referrals system)
-│   │   │   └── tickets.py       ✅ NEW (tickets system)
+│   │   │   ├── basic.py         ✅
+│   │   │   ├── auth.py          ✅
+│   │   │   ├── keys.py          ✅
+│   │   │   ├── operations.py    ✅
+│   │   │   ├── consumption.py   ✅
+│   │   │   ├── packages.py      ✅
+│   │   │   ├── payments.py      ✅
+│   │   │   ├── subscriptions.py ✅
+│   │   │   └── referrals.py     ✅
 │   │   └── keyboards/
-│   │       ├── main.py          ✅ MIGRATED
-│   │       ├── auth.py          ✅ NEW
-│   │       ├── keys.py          ✅ NEW
-│   │       ├── messages_keys.py ✅ NEW
-│   │       ├── operations.py    ✅ NEW
-│   │       ├── messages_operations.py ✅ NEW
-│   │       ├── consumption.py   ✅ NEW
-│   │       ├── messages_consumption.py ✅ NEW
-│   │       ├── packages.py      ✅ NEW
-│   │       └── messages_packages.py ✅ NEW
 │   └── infrastructure/
-│       ├── api_client.py        ✅ MIGRATED
-│       ├── config.py            ✅ NEW (pydantic-settings)
-│       ├── redis.py             ✅ NEW (RedisPool)
-│       ├── token_storage.py     ✅ NEW (TokenStorage)
-│       ├── error_handler.py     ✅ MIGRATED
-│       └── logger.py            ✅ MIGRATED
-├── tests/                       ✅ 323 tests (319 passed)
-├── .github/workflows/ci.yml     ✅ NEW (CI/CD)
-└── .pre-commit-config.yaml      ✅ NEW
+└── tests/                       ✅ ~290 tests
+```
+
+#### **Support Bot (@uSipipoSupport_Bot) - NEW!**
+```
+/home/mowgli/usipipo/usipipo-support-bot/
+├── src/
+│   ├── bot/
+│   │   ├── handlers/
+│   │   │   └── tickets.py       ✅
+│   │   ├── keyboards/
+│   │   │   ├── tickets.py       ✅
+│   │   │   └── messages_tickets.py ✅
+│   │   └── middlewares/
+│   │       └── auth.py          ✅
+│   └── infrastructure/
+│       ├── api_client.py        ✅
+│       ├── config.py            ✅
+│       ├── redis.py             ✅
+│       ├── token_storage.py     ✅
+│       ├── logger.py            ✅
+│       └── error_handler.py     ✅
+├── tests/                       ✅ 58 tests (100% passing)
+├── .github/workflows/ci.yml     ✅
+├── Dockerfile                   ✅
+├── docker-compose.yml           ✅
+└── usipipo-support-bot.service  ✅
 ```
 
 ---
 
-## ✅ Completed Migration (Phase 1 - Auth)
-
-### **Migrated Components**
-
-| Component | Legacy File | New File | Status |
-|-----------|-------------|----------|--------|
-| **Basic Commands** | `features/basic_commands/handlers_basic.py` | `src/bot/handlers/basic.py` | ✅ Complete |
-| **Basic Messages** | `features/basic_commands/messages_basic.py` | `src/bot/keyboards/main.py` | ✅ Complete |
-| **API Client** | N/A (new) | `src/infrastructure/api_client.py` | ✅ Complete |
-| **Logger** | N/A (new) | `src/infrastructure/logger.py` | ✅ Complete |
-| **Error Handler** | N/A (new) | `src/infrastructure/error_handler.py` | ✅ Complete |
-
-### **New Components (Not in Legacy)**
-
-| Component | File | Purpose |
-|-----------|------|---------|
-| **Auth Handler** | `src/bot/handlers/auth.py` | Invisible authentication |
-| **Auth Messages** | `src/bot/keyboards/auth.py` | Auth constants |
-| **Config** | `src/infrastructure/config.py` | pydantic-settings |
-| **Redis Pool** | `src/infrastructure/redis.py` | Connection pooling |
-| **Token Storage** | `src/infrastructure/token_storage.py` | JWT management |
-| **CI/CD** | `.github/workflows/ci.yml` | GitHub Actions |
-| **Pre-commit** | `.pre-commit-config.yaml` | Git hooks |
-
-### **Test Coverage**
-
-| Test Type | Count | Status |
-|-----------|-------|--------|
-| Unit Tests | 154 | ✅ 154 passed |
-| Integration Tests | 6 | ✅ 6 passed |
-| **Total** | **160** | ✅ **160 passed** |
-
----
-
-## ✅ Completed Migration (Phase 3 - Operations + Profile)
-
-### **Migrated Components**
-
-| Component | Legacy File | New File | Status |
-|-----------|-------------|----------|--------|
-| **Operations Handlers** | `features/operations/handlers_operations.py` | `src/bot/handlers/operations.py` | ✅ Complete |
-| **Operations Keyboards** | `features/operations/keyboards_operations.py` | `src/bot/keyboards/operations.py` | ✅ Complete |
-| **Operations Messages** | N/A (new) | `src/bot/keyboards/messages_operations.py` | ✅ Complete |
-
-**Commands Implemented:**
-- `/operaciones` - Operations menu
-
-**Backend Integration:**
-- `GET /api/v1/referrals/me` - Get referral stats
-- `GET /api/v1/transactions` - Get transactions history
-
-**Test Coverage:** 21 new tests (all passing)
-
----
-
-## ✅ Completed Migration (Phase 2 - VPN Key Management)
-
-### **Migrated Components**
-
-| Component | Legacy File | New File | Status |
-|-----------|-------------|----------|--------|
-| **Key Management Handlers** | `features/key_management/handlers_key_management.py` | `src/bot/handlers/keys.py` | ✅ Complete |
-| **Key Info Handlers** | `features/key_management/handlers_key_info.py` | `src/bot/handlers/keys.py` | ✅ Complete |
-| **Key Actions Handlers** | `features/key_management/handlers_key_actions.py` | `src/bot/handlers/keys.py` | ✅ Complete |
-| **Key Latency Handlers** | `features/key_management/handlers_key_latency.py` | `src/bot/handlers/keys.py` | ✅ Complete |
-| **Key Keyboards** | `features/key_management/keyboards_key_management.py` | `src/bot/keyboards/keys.py` | ✅ Complete |
-| **Key Messages** | `features/key_management/messages_key_management.py` | `src/bot/keyboards/messages_keys.py` | ✅ Complete |
-
-**Commands Implemented:**
-- `/keys` - List VPN keys
-- `/newkey` - Create new key
-- `/delkey` - Delete key
-- `/qr` - Show QR code
-
-**Backend Integration:**
-- `GET /api/v1/vpn/keys` - List keys
-- `POST /api/v1/vpn/keys` - Create key
-- `DELETE /api/v1/vpn/keys/{id}` - Delete key
-- `GET /api/v1/vpn/keys/{id}/config` - Get config (QR/link)
-
-**Test Coverage:** 25 new tests (all passing)
-
----
-
-## 🟡 Pending Migration (Phase 4+) - Prioritized by Complexity
-
-### **Priority 1: Consumption Billing (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)
-**Files to Migrate:** 10
-**Status:** 🟡 Next
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/consumption/handlers_consumption.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_activation.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_cancellation.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_invoice.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_menu.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_status.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/keyboards_consumption.py` | `src/bot/keyboards/consumption.py` | P2 |
-| `features/consumption/messages_consumption.py` | `src/bot/keyboards/consumption.py` | P2 |
-
-**Commands:**
-- `/consumo` - Consumption menu
-- `/activar` - Activate consumption mode
-- `/cancelar` - Cancel consumption mode
-- `/factura` - View invoices
-
-**Backend Integration:**
-- `GET /api/v1/consumption/status` - Get consumption status
-- `POST /api/v1/consumption/activate` - Activate consumption
-- `POST /api/v1/consumption/cancel` - Cancel consumption
-- `GET /api/v1/consumption/invoices` - Get invoices
-
-**Estimated Effort:** 6-8 hours
-
----
-
-### **Priority 2: Data Packages / Buy GB (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)
-**Files to Migrate:** 10
-**Status:** ⏳ Planned
-
----
-
-### **Priority 3: Payments (MEDIUM-HARD)** ⭐⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)  
-**Files to Migrate:** 10  
-**Backend Endpoints:** Already available  
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/consumption/handlers_consumption.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_activation.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_cancellation.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_invoice.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_menu.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/handlers_status.py` | `src/bot/handlers/consumption.py` | P2 |
-| `features/consumption/keyboards_consumption.py` | `src/bot/keyboards/consumption.py` | P2 |
-| `features/consumption/messages_consumption.py` | `src/bot/keyboards/consumption.py` | P2 |
-
-**Commands:**
-- `/consumo` - Consumption menu
-- `/activar` - Activate consumption mode
-- `/cancelar` - Cancel consumption mode
-- `/factura` - View invoices
-
-**Backend Integration:**
-- `GET /api/v1/consumption/status` - Get consumption status
-- `POST /api/v1/consumption/activate` - Activate consumption
-- `POST /api/v1/consumption/cancel` - Cancel consumption
-- `GET /api/v1/consumption/invoices` - Get invoices
-
-**Estimated Effort:** 6-8 hours
-
----
-
-### **Priority 5: Data Packages / Buy GB (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)  
-**Files to Migrate:** 10  
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/buy_gb/handlers_buy_gb.py` | `src/bot/handlers/packages.py` | P3 |
-| `features/buy_gb/handlers_packages.py` | `src/bot/handlers/packages.py` | P3 |
-| `features/buy_gb/handlers_payment_crypto.py` | `src/bot/handlers/packages.py` | P3 |
-| `features/buy_gb/handlers_payment_stars.py` | `src/bot/handlers/packages.py` | P3 |
-| `features/buy_gb/keyboards_buy_gb.py` | `src/bot/keyboards/packages.py` | P3 |
-| `features/buy_gb/messages_buy_gb.py` | `src/bot/keyboards/packages.py` | P3 |
-
-**Commands:**
-- `/comprar` - Buy data packages
-- `/paquetes` - View available packages
-- `/pago/crypto` - Pay with crypto
-- `/pago/stars` - Pay with Telegram Stars
-
-**Backend Integration:**
-- `GET /api/v1/data-packages` - List packages
-- `POST /api/v1/payments/crypto` - Create crypto payment
-- `POST /api/v1/payments/stars` - Create Stars payment
-
-**Estimated Effort:** 6-8 hours
-
----
-
-### **Priority 6: Payments (MEDIUM-HARD)** ⭐⭐⭐⭐
-**Complexity:** ⭐⭐⭐⭐ (Medium-Hard)  
-**Files to Migrate:** 8  
-**Backend Integration:** TronDealer webhook already migrated  
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/payments/handlers_payments.py` | `src/bot/handlers/payments.py` | P4 |
-| `features/payments/handlers_crypto.py` | `src/bot/handlers/payments.py` | P4 |
-| `features/payments/handlers_stars.py` | `src/bot/handlers/payments.py` | P4 |
-| `features/payments/keyboards_payments.py` | `src/bot/keyboards/payments.py` | P4 |
-| `features/payments/messages_payments.py` | `src/bot/keyboards/payments.py` | P4 |
-
-**Backend Integration:**
-- TronDealer webhook: ✅ Already migrated
-- Telegram Stars: ✅ Already implemented in backend
-
-**Estimated Effort:** 8-10 hours
-
----
-
-### **Priority 7: Subscriptions (MEDIUM-HARD)** ⭐⭐⭐⭐
-**Complexity:** ⭐⭐⭐⭐ (Medium-Hard)  
-**Files to Migrate:** 6  
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/subscriptions/handlers_subscriptions.py` | `src/bot/handlers/subscriptions.py` | P5 |
-| `features/subscriptions/handlers_plans.py` | `src/bot/handlers/subscriptions.py` | P5 |
-| `features/subscriptions/keyboards_subscriptions.py` | `src/bot/keyboards/subscriptions.py` | P5 |
-
-**Commands:**
-- `/suscripcion` - View subscription
-- `/planes` - View available plans
-- `/renovar` - Renew subscription
-
-**Backend Integration:**
-- `GET /api/v1/subscriptions/me` - Get user subscription
-- `GET /api/v1/subscriptions/plans` - List plans
-- `POST /api/v1/subscriptions/activate` - Activate subscription
-
-**Estimated Effort:** 6-8 hours
-
----
-
-### **Priority 8: Referrals (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)
-**Files to Migrate:** 4
-**Status:** ✅ **Complete**
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/referrals/handlers_referrals.py` | `src/bot/handlers/referrals.py` | P6 |
-| `features/referrals/keyboards_referrals.py` | `src/bot/keyboards/referrals.py` | P6 |
-
-**Commands:**
-- `/referidos` - View referrals
-- `/invitar` - Get referral link
-
-**Backend Integration:**
-- `GET /api/v1/referrals/me` - Get referral stats
-- `POST /api/v1/referrals/apply` - Apply referral code
-- `POST /api/v1/referrals/redeem` - Redeem credits
-
-**Estimated Effort:** 4-6 hours
-
----
-
-### **Priority 9: Tickets/Support (MEDIUM)** ⭐⭐⭐
-**Complexity:** ⭐⭐⭐ (Medium)
-**Files to Migrate:** 6
-**Status:** ✅ **Complete**
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/tickets/handlers_tickets.py` | `src/bot/handlers/tickets.py` | P7 |
-| `features/tickets/handlers_create.py` | `src/bot/handlers/tickets.py` | P7 |
-| `features/tickets/keyboards_tickets.py` | `src/bot/keyboards/tickets.py` | P7 |
-
-**Commands:**
-- `/tickets` - View tickets
-- `/nuevoticket` - Create new ticket
-- `/mistickets` - View my tickets
-
-**Backend Integration:**
-- `GET /api/v1/tickets` - List tickets
-- `POST /api/v1/tickets` - Create ticket
-- `GET /api/v1/tickets/{id}` - Get ticket details
-- `PATCH /api/v1/tickets/{id}/close` - Close ticket
-
-**Estimated Effort:** 4-6 hours
-
----
-
-### **Priority 10: Admin Panel (HARD)** ⭐⭐⭐⭐⭐
-**Complexity:** ⭐⭐⭐⭐⭐ (Hard)  
-**Files to Migrate:** 24  
-**Access Control:** Admin-only commands  
-
-| Legacy File | New File | Priority |
-|-------------|----------|----------|
-| `features/admin/handlers_*.py` (14 files) | `src/bot/handlers/admin/` | P8 |
-| `features/admin_vpn/handlers_*.py` (10 files) | `src/bot/handlers/admin/` | P8 |
-
-**Admin Commands:**
-- `/admin` - Admin dashboard
-- `/users` - User management
-- `/keys` - Key management (admin view)
-- `/tickets` - Ticket management (admin view)
-- `/servers` - Server monitoring
-
-**Access Control:**
-- Requires admin authentication
-- `ADMIN_ID` from .env
-- Middleware for admin-only commands
-
-**Estimated Effort:** 16-20 hours
-
----
-
-## 📋 Migration Roadmap
+## ✅ Completed Migration Phases
+
+### **Phase 1: Auth + Infrastructure** ✅
+- Basic commands
+- Invisible authentication
+- API client, Redis, token storage
+- CI/CD pipeline
+- **12 files, 160 tests**
+
+### **Phase 2: VPN Key Management** ✅
+- Full CRUD operations
+- QR code generation
+- **8 files, 25 tests**
+
+### **Phase 3: Operations + Profile** ✅
+- Operations menu
+- Transactions history
+- **8 files, 21 tests**
+
+### **Phase 4: Consumption Billing** ✅
+- Consumption mode
+- Activation/cancellation
+- Invoices
+- **10 files, 45 tests**
+
+### **Phase 5: Data Packages** ✅
+- Package selection
+- Crypto + Stars payments
+- **10 files, 55 tests**
 
 ### **Phase 6: Payments + Subscriptions** ✅
-- [x] Migrate payments handlers (crypto + stars)
-- [x] Migrate payments keyboards
-- [x] Migrate payments messages
-- [x] Migrate subscriptions handlers
-- [x] Migrate subscriptions keyboards
-- [x] Migrate subscriptions messages
-- [x] Integration with backend payments/subscriptions endpoints
-- [x] Tests (103 tests)
-- **Status:** COMPLETE
+- Crypto payments (TronDealer)
+- Telegram Stars
+- Subscription management
+- **14 files, 103 tests**
 
 ### **Phase 7: Referrals + Tickets** ✅
-- [x] Migrate referrals
-- [x] Migrate tickets
-- [x] End-to-end testing
-- **Status:** COMPLETE (v0.8.0)
+- Referral system
+- Ticket creation (user-facing)
+- **10 files, 32 tests**
 
-### **Phase 8: Admin Panel** (Final)
-- [ ] Migrate admin handlers
-- [ ] Admin access control middleware
-- [ ] Admin dashboard
-- **Estimated:** 16-20 hours
+### **Phase 8: Tickets Migration to Support Bot** ✅ **NEW!**
+- **Tickets extracted from main bot**
+- **Dedicated support bot created**
+- **58 tests migrated**
+- **Main bot v0.9.0, Support bot v0.1.0**
 
 ---
 
-## 📊 Migration Progress
+## 📊 Final Migration Progress
 
 | Phase | Feature | Files | Status | Progress |
 |-------|---------|-------|--------|----------|
@@ -417,32 +149,79 @@
 | **Phase 4** | **Consumption Billing** | 10 | ✅ Complete | 100% |
 | **Phase 5** | **Data Packages** | 10 | ✅ Complete | 100% |
 | **Phase 6** | **Payments + Subscriptions** | 14 | ✅ Complete | 100% |
-| **Phase 7** | **Referrals + Tickets** | 10 | ✅ Complete | 100% |
-| **Phase 8** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~75%** |
+| **Phase 7** | **Referrals** | 4 | ✅ Complete | 100% |
+| **Phase 8** | **Tickets → Support Bot** | 7 | ✅ Complete | 100% |
+| **Phase 9** | **Admin Panel** | 24 | ⏳ Planned | 0% |
+| **TOTAL** | **User Features** | **73** | ✅ **Complete** | **100%** |
 
 ---
 
-## 🎯 Recommendations
+## 🎉 Releases
 
-### **Start With (Easiest):**
-1. ✅ **Phase 1: Auth** - COMPLETE
-2. ✅ **Phase 2: VPN Key Management** - COMPLETE
-3. ✅ **Phase 3: Operations + Profile** - COMPLETE
-4. 🟡 **Phase 4: Consumption Billing** - Next (6-8 hours)
+### **Main Bot Releases**
+- **v0.9.0** (2026-03-28): Tickets Migration
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
+- **v0.8.0** (2026-03-28): Referrals + Tickets
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.8.0
+- **v0.7.1** (2026-03-28): Pricing Corrections
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.7.1
+- **v0.7.0** (2026-03-28): Payments + Subscriptions
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.7.0
+- **v0.6.0** (2026-03-28): Data Packages
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.6.0
+- **v0.5.0** (2026-03-27): Consumption Billing
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.5.0
+- **v0.4.0** (2026-03-27): Operations + Profile
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
+- **v0.3.0** (2026-03-27): VPN Key Management
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
+- **v0.2.0** (2026-03-27): Profile
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
+- **v0.1.0** (2026-03-24): Invisible Authentication
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
 
-### **Why This Order:**
-- **Low complexity** - Simple CRUD operations
-- **High value** - Core user functionality
-- **Backend ready** - All endpoints available
-- **Builds momentum** - Quick wins
+### **Support Bot Releases - NEW!**
+- **v0.1.0** (2026-03-28): Initial Release
+  - https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
 
-### **Leave for Last (Hardest):**
-- **Admin Panel** - Requires access control, complex UI
-- **Payments** - Requires thorough testing, security critical
-- **Subscriptions** - Complex state management
+---
 
-**Estimated Total Effort Remaining:** 44-58 hours
+## 📋 User Commands
+
+### **Main Bot (@usipipobot)**
+```
+/start       - Iniciar bot
+/help        - Mostrar ayuda
+/me          - Ver perfil
+/unlink      - Revocar acceso
+/keys        - Gestionar VPN keys
+/newkey      - Crear nueva key
+/delkey      - Eliminar key
+/qr          - Mostrar QR
+/operaciones - Menú de operaciones
+/consumo     - Consumo billing
+/activar     - Activar consumo
+/cancelar    - Cancelar consumo
+/factura     - Ver facturas
+/comprar     - Comprar paquetes
+/paquetes    - Ver paquetes
+/pago        - Pagos
+/pagar       - Pagar
+/historial   - Historial de pagos
+/suscripcion - Ver suscripción
+/planes      - Ver planes
+/renovar     - Renovar suscripción
+/referidos   - Ver referidos
+/invitar     - Obtener link de invitación
+```
+
+### **Support Bot (@uSipipoSupport_Bot)**
+```
+/start       - Iniciar bot
+/help        - Mostrar ayuda
+/tickets     - Ver mis tickets
+/nuevoticket - Crear nuevo ticket
+```
 
 ---
 
@@ -450,15 +229,16 @@
 
 - **Ecosystem Context:** `/plans/ECOSYSTEM-CONTEXT.md`
 - **Migration Progress:** `/plans/MIGRATION-PROGRESS.md`
-- **Auth Implementation:** `/plans/TELEGRAM-AUTH-IMPLEMENTATION.md`
-- **Integration Tests:** `usipipo-telegram-bot/INTEGRATION-TEST-SUMMARY.md`
-- **Backend API Docs:** http://localhost:8001/docs
+- **Multi-Bot Architecture:** `/plans/shared/MULTI-BOT-ARCHITECTURE.md`
+- **Support Bot Design:** `/plans/support-bot/2026-03-28-support-bot-design.md`
+- **Support Bot Implementation:** `/plans/support-bot/implementation-plan.md`
+- **Support Bot Docs:** `/support-bot/` (ARCHITECTURE.md, DEPLOYMENT.md, USER-GUIDE.md)
 
 ---
 
 **Last Updated:** 2026-03-28
-**Next Phase:** Admin Panel (Phase 8)
-**Estimated Total Effort Remaining:** 16-20 hours
-**Release:** v0.8.0 - Referrals + Tickets Complete ✅
-**Tests:** 323 tests (319 passed)
-**Migration Progress:** 75% complete (68/92 files)
+**Main Bot Version:** v0.9.0
+**Support Bot Version:** v0.1.0
+**User Features:** 100% Complete ✅
+**Admin Panel:** Planned (Phase 9)
+**Multi-Bot Architecture:** Production Ready ✅

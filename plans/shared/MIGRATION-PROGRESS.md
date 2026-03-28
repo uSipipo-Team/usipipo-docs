@@ -1,37 +1,87 @@
-# Migration Progress - Monorepo to Multi-Repo
+# Migration Progress - Monorepo to Multi-Repo → Multi-Bot
 
 **Date:** 2026-03-28
-**Status:** BACKEND 100% + TELEGRAM BOT 75% + INFRASTRUCTURE COMPLETE! 🎉
-**Branch:** `main` (backend) | `main` (telegram-bot) | `main` (commons) | `main` (landing)
-**Latest Release:** v0.8.0 - Referrals + Tickets ✅
+**Status:** BACKEND 100% + MULTI-BOT ARCHITECTURE 100% + INFRASTRUCTURE COMPLETE! 🎉
+**Branch:** `main` (backend) | `main` (telegram-bot) | `main` (support-bot) | `main` (commons) | `main` (landing)
+**Latest Releases:** 
+- Main Bot v0.9.0 - Tickets Migration ✅
+- Support Bot v0.1.0 - Initial Release ✅
 
 ---
 
 ## 📋 Overview
 
-Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated repositories:
+Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated repositories with **multi-bot architecture**:
+
+### **Repositories**
 - ✅ `usipipo-commons` - Shared library (PyPI **v0.12.0**)
 - ✅ `usipipo-backend` - Backend API **v0.10.0** (100% features + auth invisible)
 - ✅ `usipipo-landing` - Landing Page (updated with pricing & bot links)
 - ✅ `usipipo-backend.wiki` - GitHub Wiki documentation (4 pages)
-- ✅ `usipipo-telegram-bot` - Bot **v0.8.0** (Auth + VPN Keys + Operations + Consumption + Data Packages + Payments + Subscriptions + Referrals + Tickets complete!)
+- ✅ `usipipo-telegram-bot` - Main Bot **v0.9.0** (Tickets migrated to Support Bot)
+- ✅ `usipipo-support-bot` - Support Bot **v0.1.0** (NEW! Production ready)
+- ✅ `usipipo-docs` - Documentation Portal (Updated with multi-bot docs)
 - ⏳ `usipipo-miniapp-web` - Mini App (Pending)
-- ⏳ `usipipo-docs` - Documentation Portal (Planned after Bot)
 
-**Legacy Bot Migration:**
+### **Multi-Bot Architecture**
+
+| Bot | Handle | Version | Purpose | Status | Tests |
+|-----|--------|---------|---------|--------|-------|
+| **Main Bot** | `@usipipobot` | v0.9.0 | VPN, Payments, Subscriptions, etc. | ✅ Production | ~290 |
+| **Support Bot** | `@uSipipoSupport_Bot` | v0.1.0 | Support Tickets | ✅ Production | 58 |
+
+### **Legacy Bot Migration**
 - **Source:** `/home/mowgli/usipipobot/telegram_bot/` (92 Python files)
-- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.8.0)
-- **Progress:** ~75% (68/92 files migrated)
-- **Next:** Admin Panel (Phase 8)
-- **Tests:** 323 tests (319 passed, 1 skipped, 3 pre-existing failures)
-- **Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.8.0
+- **Target:** Multi-bot architecture
+  - Main Bot: `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.9.0)
+  - Support Bot: `/home/mowgli/usipipo/usipipo-support-bot/` (v0.1.0)
+- **Progress:** 100% User Features Complete ✅
+- **Next:** Admin Panel (Phase 9)
+- **Tests:** 348 total (348 passed)
+- **Releases:**
+  - Main Bot: https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
+  - Support Bot: https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
 - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md` for complete migration guide
 
 ---
 
-## 🎉 LATEST RELEASE: Backend v0.10.0 (2026-03-24)
+## 🎉 LATEST RELEASES (2026-03-28)
 
-### **Telegram Bot Invisible Authentication**
+### **Main Bot v0.9.0** (Tickets Migration - BREAKING CHANGE)
+
+**What's New:**
+- ✅ **BREAKING:** Tickets system removed (migrated to @uSipipoSupport_Bot)
+- ✅ **Commands Removed:** `/tickets`, `/nuevoticket`, `/mistickets`
+- ✅ **Migration:** Users should use @uSipipoSupport_Bot for support
+- ✅ **Files Removed:** 7 (handlers, keyboards, tests)
+- ✅ **Lines Changed:** 36 insertions, 1,395 deletions
+- ✅ **Version:** 0.8.0 → 0.9.0
+
+**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
+
+---
+
+### **Support Bot v0.1.0** (Initial Release - NEW!)
+
+**What's New:**
+- ✅ **Complete support ticket management system**
+- ✅ **Commands:** `/start`, `/help`, `/tickets`, `/nuevoticket`
+- ✅ **Category selection:** technical, billing, services, general
+- ✅ **JWT authentication** with Redis auto-refresh
+- ✅ **58 tests** (100% passing, 55% coverage)
+- ✅ **CI/CD pipeline** (Ruff, Mypy, Pytest, Bandit)
+- ✅ **Docker & docker-compose support**
+- ✅ **systemd service configuration**
+- ✅ **Professional documentation**
+
+**Files Created:** 49
+**Lines Added:** 4,294
+
+**Release:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
+
+---
+
+### **Backend v0.10.0** (Telegram Bot Invisible Authentication)
 
 **What's New:**
 - ✅ POST /auth/telegram/auto-register endpoint
@@ -42,373 +92,7 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - ✅ 256 tests passing
 - ✅ Quality: mypy (0 errors), ruff (passed), bandit (0 issues)
 
-**Files Modified:**
-- `src/infrastructure/api/v1/routes/auth.py` (auto-register + refresh endpoints)
-- `src/shared/schemas/auth.py` (new schemas)
-- `src/infrastructure/persistence/repositories/device_repository.py` (E712 fix)
-- `src/infrastructure/persistence/models/device_model.py` (W293 fix)
-- `CHANGELOG.md` (v0.10.0 release notes)
-- `pyproject.toml` (version bump to 0.10.0)
-
 **Release:** https://github.com/uSipipo-Team/usipipo-backend/releases/tag/v0.10.0
-
----
-
-## 🎉 TELEGRAM BOT v0.7.1 (2026-03-28)
-
-### **Pricing Corrections (Legacy Alignment)**
-
-**What's New in v0.7.1:**
-- ✅ **Data Packages Pricing** - Corrected to match legacy values
-- ✅ **Subscriptions Pricing** - Corrected to match legacy values
-- ✅ **STARS_PER_USDT Constant** - Exchange rate configuration (1 USDT = 120 Stars)
-- ✅ **Pricing Documentation** - Comprehensive pricing reference (530 lines)
-
-**v0.7.1 Pricing (Corrected):**
-- ✅ Data Packages: 250, 600, 960, 1440, 1800 Stars (10-200 GB)
-- ✅ Subscriptions: 360, 900, 1680, 3000 Stars (1-12 months)
-- ✅ Exchange Rate: STARS_PER_USDT = 120
-- ✅ Files Modified: 5 (packages.py, subscriptions.py, payments.py, messages_payments.py, config.py)
-- ✅ Documentation: pricing-structure.md (530 lines)
-- ✅ Lines Changed: 108 insertions, 65 deletions
-
-**Releases:**
-- **v0.7.1:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.7.1
-- **v0.7.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.7.0
-
-**PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/10 (merged)
-
----
-
-## 🎉 TELEGRAM BOT v0.8.0 (2026-03-28)
-
-### **Referrals + Tickets Complete**
-
-**What's New in v0.8.0:**
-- ✅ **Referrals System** - Invite friends, earn credits
-- ✅ **Tickets System** - Support ticket management
-- ✅ **Commands:** `/referidos`, `/invitar`, `/tickets`, `/nuevoticket`, `/mistickets`
-- ✅ **Keyboards:** 8+ inline keyboard layouts
-- ✅ **Messages:** 13+ message categories
-- ✅ **Tests:** 32 new unit tests (295 total: 295 passed)
-- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
-
-**v0.8.0 Features:**
-- ✅ Referral stats display with credits
-- ✅ Referral link generation
-- ✅ Credit redemption (10 credits = 1 GB)
-- ✅ Ticket creation with category selection
-- ✅ Ticket list with status indicators
-- ✅ Ticket detail view
-- ✅ Ticket closure
-- ✅ Redis token storage with auto-refresh
-- ✅ AuthHandler with invisible auth flow
-- ✅ 32 new tests (295 total: 295 passed)
-- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
-- ✅ Pre-commit configuration
-- ✅ Branch protection enabled (admin bypass)
-- ✅ Integration tests with production backend
-
-**Files Created:**
-- `src/bot/handlers/referrals.py` (~400 lines)
-- `src/bot/handlers/tickets.py` (~500 lines)
-- `src/bot/keyboards/referrals.py` (~120 lines)
-- `src/bot/keyboards/messages_referrals.py` (~180 lines)
-- `src/bot/keyboards/tickets.py` (~150 lines)
-- `src/bot/keyboards/messages_tickets.py` (~220 lines)
-- `tests/bot/test_referrals_handlers.py` (13 tests)
-- `tests/bot/test_tickets_handlers.py` (15 tests)
-- `tests/integration/test_referrals_integration.py` (2 tests)
-- `tests/integration/test_tickets_integration.py` (2 tests)
-
-**Backend Integration:**
-- GET /api/v1/referrals/me - Get referral stats
-- POST /api/v1/referrals/apply - Apply referral code
-- POST /api/v1/referrals/redeem - Redeem credits for data
-- POST /api/v1/tickets - Create support ticket
-- GET /api/v1/tickets - List user tickets
-- GET /api/v1/tickets/{id} - Get ticket with messages
-- PATCH /api/v1/tickets/{id}/close - Close ticket
-
-**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.8.0
-
----
-
-## 🎉 TELEGRAM BOT v0.7.0 (2026-03-28)
-
-### **Payments + Subscriptions Complete**
-
-**What's New in v0.7.0:**
-- ✅ **Payments System** - Crypto (TronDealer) + Telegram Stars
-- ✅ **Subscriptions System** - Plan management, activation, renewal
-- ✅ **Commands:** `/pago`, `/pagar`, `/historial`, `/suscripcion`, `/planes`, `/renovar`
-- ✅ **Keyboards:** 15+ inline keyboard layouts
-- ✅ **Messages:** 10+ message categories
-- ✅ **Tests:** 103 new unit tests (263 total: 263 passed)
-- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
-
-**v0.7.0 Features:**
-- ✅ Payment menu with crypto and stars options
-- ✅ Crypto payment flow via TronDealer ($10, $25, $50, $100)
-- ✅ Stars payment flow with Telegram invoices
-- ✅ Payment history with pagination
-- ✅ Subscription plans display (1, 3, 6, 12 months)
-- ✅ Subscription activation and renewal
-- ✅ Subscription status display
-- ✅ Redis token storage with auto-refresh
-- ✅ AuthHandler with invisible auth flow
-- ✅ 103 new tests (263 total: 263 passed)
-- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
-- ✅ Pre-commit configuration
-- ✅ Branch protection enabled (admin bypass)
-- ✅ Integration tests with production backend
-
-**Files Created:**
-- `src/bot/handlers/payments.py` (542 lines - PaymentsHandler)
-- `src/bot/handlers/subscriptions.py` (578 lines - SubscriptionsHandler)
-- `src/bot/keyboards/payments.py` (190 lines - Payment keyboards)
-- `src/bot/keyboards/messages_payments.py` (226 lines - Payment messages)
-- `src/bot/keyboards/subscriptions.py` (378 lines - Subscription keyboards)
-- `src/bot/keyboards/messages_subscriptions.py` (334 lines - Subscription messages)
-- `tests/bot/test_payments_handlers.py` (644 lines - 45 tests)
-- `tests/bot/test_subscriptions_handlers.py` (775 lines - 58 tests)
-
-**Files Modified:**
-- `src/main.py` (registered PaymentsHandler + SubscriptionsHandler)
-- `CHANGELOG.md` (v0.7.0 release notes)
-- `pyproject.toml` (version bump to 0.7.0)
-
-**Backend Integration:**
-- `POST /api/v1/payments/crypto` - Create crypto payment
-- `POST /api/v1/payments/stars` - Create Stars payment
-- `GET /api/v1/payments/history` - Get payment history
-- `GET /api/v1/subscriptions/me` - Get user subscription
-- `GET /api/v1/subscriptions/plans` - List plans
-- `POST /api/v1/subscriptions/activate` - Activate subscription
-- `POST /api/v1/subscriptions/renew` - Renew subscription
-
-**Releases:**
-- **v0.7.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.7.0
-- **v0.6.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.6.0
-- **v0.5.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.5.0
-- **v0.4.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
-- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
-- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
-- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
-
-**PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/9 (merged)
-
----
-
-## 🎉 TELEGRAM BOT v0.6.0 (2026-03-28)
-
-### **Data Packages Complete + Payment Integration**
-
-**What's New in v0.6.0:**
-- ✅ **Data Packages System** - Buy GB data packages with flexible payment
-- ✅ **Commands:** `/comprar`, `/paquetes`, `/packages`
-- ✅ **Payment Methods:** Telegram Stars + Crypto (USDT)
-- ✅ **Keyboards:** 10+ inline keyboard layouts
-- ✅ **Messages:** 6 message categories with package details
-- ✅ **Tests:** 55 new unit tests (160 total: 160 passed)
-- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
-
-**v0.6.0 Features:**
-- ✅ Package selection menu (4 tiers: Small/Medium/Large/XL)
-- ✅ Telegram Stars payment flow with invoices
-- ✅ Crypto payment flow via TronDealer
-- ✅ Data slots management
-- ✅ Data usage summary display
-- ✅ Pre-checkout validation
-- ✅ Successful payment handling
-- ✅ Redis token storage with auto-refresh
-- ✅ AuthHandler with invisible auth flow
-- ✅ Commands /me, /unlink, /keys, /newkey, /operaciones, /consumo
-- ✅ 55 new tests (160 total: 160 passed)
-- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
-- ✅ Pre-commit configuration
-- ✅ Branch protection enabled (admin bypass)
-- ✅ Integration tests with production backend
-
-**Files Created:**
-- `src/bot/handlers/packages.py` (858 lines - PackagesHandler)
-- `src/bot/keyboards/packages.py` (211 lines - 10+ keyboards)
-- `src/bot/keyboards/messages_packages.py` (245 lines - 6 message categories)
-- `tests/bot/test_packages_handlers.py` (722 lines - 55 tests)
-
-**Files Modified:**
-- `src/main.py` (registered PackagesHandler + payment handlers)
-- `CHANGELOG.md` (v0.6.0 release notes)
-- `pyproject.toml` (version bump to 0.6.0)
-
-**Backend Integration:**
-- `GET /api/v1/data-packages` - List available packages
-- `POST /api/v1/payments/stars` - Create Stars payment
-- `POST /api/v1/payments/stars/activate` - Activate after payment
-- `POST /api/v1/payments/crypto` - Create crypto payment
-- `GET /api/v1/payments/crypto/{id}/status` - Check payment status
-- `GET /api/v1/users/me/data-summary` - Get user data usage
-- `GET /api/v1/users/me/slots` - Get user's data slots
-- `POST /api/v1/users/me/slots` - Buy extra slot
-
-**Releases:**
-- **v0.6.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.6.0
-- **v0.5.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.5.0
-- **v0.4.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
-- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
-- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
-- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
-
-**PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/8 (merged)
-
----
-
-## 🎉 TELEGRAM BOT v0.5.0 (2026-03-27)
-
-### **Consumption Billing Complete + Invisible Authentication**
-
-**What's New in v0.5.0:**
-- ✅ **Consumption Billing System** - Pay-as-you-go consumption mode
-- ✅ **Commands:** `/consumo`, `/activar`, `/cancelar`, `/factura`
-- ✅ **Keyboards:** 12 inline keyboard layouts (state-aware menus)
-- ✅ **Messages:** 7 message categories with dynamic pricing
-- ✅ **Tests:** 45 new unit tests (150 total: 150 passed)
-- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
-
-**v0.5.0 Features:**
-- ✅ Consumption menu with 3 states (inactive/active/debt)
-- ✅ Activation flow with terms acceptance (2-step)
-- ✅ Cancellation flow with debt summary (2-step)
-- ✅ Status view with consumption stats (GB, cost, days)
-- ✅ Invoice listing with pagination
-- ✅ Dynamic pricing ($0.25/GB)
-- ✅ Redis token storage with auto-refresh
-- ✅ AuthHandler with invisible auth flow
-- ✅ Commands /me, /unlink, /keys, /newkey, /operaciones, /consumo
-- ✅ 45 new tests (150 total: 150 passed)
-- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
-- ✅ Pre-commit configuration
-- ✅ Branch protection enabled (admin bypass)
-- ✅ Integration tests with production backend
-
-**Files Created:**
-- `src/bot/handlers/consumption.py` (538 lines - ConsumptionHandler)
-- `src/bot/keyboards/consumption.py` (280 lines - 12 keyboards)
-- `src/bot/keyboards/messages_consumption.py` (337 lines - 7 message categories)
-- `tests/bot/test_consumption_handlers.py` (508 lines - 45 tests)
-
-**Files Modified:**
-- `src/main.py` (registered ConsumptionHandler + callback handlers)
-- `src/infrastructure/api_client.py` (added headers support)
-- `src/infrastructure/config.py` (added consumption pricing constants)
-- `CHANGELOG.md` (v0.5.0 release notes)
-- `pyproject.toml` (version bump to 0.5.0)
-
-**Backend Integration:**
-- `GET /api/v1/consumption/status` - Get consumption status
-- `GET /api/v1/consumption/status/can_activate` - Check activation eligibility
-- `POST /api/v1/consumption/activate` - Activate consumption mode
-- `GET /api/v1/consumption/status/can_cancel` - Check cancellation eligibility
-- `POST /api/v1/consumption/cancel` - Cancel consumption mode
-- `GET /api/v1/consumption/invoices/user/me` - Get user invoices
-
-**Releases:**
-- **v0.5.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.5.0
-- **v0.4.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
-- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
-- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
-- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
-
-**PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/7 (merged)
-
----
-
-## 🎉 TELEGRAM BOT v0.4.0 (2026-03-27)
-
-### **Operations + Profile Complete + VPN Key Management**
-
-**What's New in v0.4.0:**
-- ✅ **Operations Menu** - Main operations hub
-- ✅ **Commands:** `/operaciones`
-- ✅ **Keyboards:** Inline keyboards for operations (credits, shop, referrals)
-- ✅ **Messages:** UI messages for operations
-- ✅ **Tests:** 21 new unit tests (149 total: 149 passed)
-- ✅ **Quality:** ruff (passed), 0 errors
-
-**v0.4.0 Features:**
-- ✅ Operations menu with credits display
-- ✅ Shop menu with purchase categories
-- ✅ Transactions history with pagination
-- ✅ Referrals program display
-- ✅ Credits redemption flow
-- ✅ Redis token storage with auto-refresh
-- ✅ AuthHandler with invisible auth flow
-- ✅ Commands /me, /unlink, /keys, /newkey, /operaciones
-- ✅ 21 new tests (149 total: 149 passed)
-- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
-- ✅ Pre-commit configuration
-- ✅ Branch protection enabled (admin bypass)
-- ✅ Integration tests with production backend
-
-**Files Created:**
-- `src/bot/handlers/operations.py` (OperationsHandler - operations menu)
-- `src/bot/keyboards/operations.py` (OperationsKeyboard - inline keyboards)
-- `src/bot/keyboards/messages_operations.py` (OperationsMessages - UI messages)
-- `tests/bot/test_operations_handlers.py` (21 unit tests)
-
-**Files Modified:**
-- `src/main.py` (registered OperationsHandler + callback handlers)
-
-**Releases:**
-- **v0.4.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.4.0
-- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
-- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
-- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
-
----
-
-## 🎉 TELEGRAM BOT v0.3.0 (2026-03-27)
-
-### **VPN Key Management Complete + Invisible Authentication**
-
-**What's New in v0.3.0:**
-- ✅ **VPN Key Management** - Full CRUD operations
-- ✅ **Commands:** `/keys`, `/newkey`, `/delkey`, `/qr`
-- ✅ **Keyboards:** Inline keyboards for key actions
-- ✅ **Messages:** UI messages for VPN operations
-- ✅ **Tests:** 25 new unit tests (107 total: 107 passed)
-- ✅ **Quality:** ruff (passed), 0 errors
-
-**v0.3.0 Features:**
-- ✅ List VPN keys by type (Outline/WireGuard)
-- ✅ Create new VPN keys
-- ✅ Delete VPN keys with confirmation
-- ✅ Rename VPN keys
-- ✅ Download WireGuard .conf files
-- ✅ Get Outline access links
-- ✅ View key statistics
-- ✅ Redis token storage with auto-refresh
-- ✅ AuthHandler with invisible auth flow
-- ✅ Commands /me, /unlink, /keys, /newkey
-- ✅ 25 new tests (107 total: 107 passed)
-- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
-- ✅ Pre-commit configuration
-- ✅ Branch protection enabled (admin bypass)
-- ✅ Integration tests with production backend
-
-**Files Created:**
-- `src/bot/handlers/keys.py` (KeysHandler - VPN key management)
-- `src/bot/keyboards/keys.py` (KeysKeyboard - inline keyboards)
-- `src/bot/keyboards/messages_keys.py` (KeysMessages - UI messages)
-- `tests/bot/test_keys_handlers.py` (25 unit tests)
-
-**Files Modified:**
-- `src/main.py` (registered KeysHandler + callback handlers)
-
-**Releases:**
-- **v0.3.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.3.0
-- **v0.2.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.2.0
-- **v0.1.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
 
 ---
 
@@ -420,16 +104,16 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 | 2. VPN Management | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 | 3. Subscriptions | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 | 4. Consumption Billing | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 5. Tickets/Support | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 6. Referrals | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 7. Admin Panel | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 5. Referrals | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 6. Admin Panel | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 7. Data Packages | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 | 8. Wallet Management | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 9. Data Packages | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 10. User Management | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 11. TronDealer Webhook | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
-| 12. **Telegram Bot Auth** | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 9. User Management | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 10. TronDealer Webhook | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 11. Telegram Bot Auth | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 12. **Support Bot** | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 
-**Overall Progress:** **100% complete (12/12 features)** 🎉
+**Overall Progress:** **100% complete (User Features)** 🎉
 
 ---
 
@@ -446,157 +130,68 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 | **Week 15-19** | **Apr 19-May 20** | **Telegram Bot Auth** | ✅ **Complete (100%)** |
 | **Week 20-22** | **May 21-Jun 10** | **VPN Key Management (Bot)** | ✅ **Complete (100%)** |
 | **Week 23-24** | **Jun 11-24** | **Operations + Profile (Bot)** | ✅ **Complete (100%)** |
-| **Week 25-27** | **Jun 25-Jul 15** | **Consumption + Packages (Bot)** | 🟡 **Next Phase** |
-| Week 28-30 | Jul 16-Aug 5 | Documentation Portal | 📋 Planned |
+| **Week 25-27** | **Jun 25-Jul 15** | **Consumption + Packages (Bot)** | ✅ **Complete** |
+| **Week 28-29** | **Jul 16-29** | **Payments + Subscriptions (Bot)** | ✅ **Complete** |
+| **Week 30-31** | **Jul 30-Aug 12** | **Referrals + Tickets (Bot)** | ✅ **Complete** |
+| **Week 32** | **Aug 13-20** | **Support Bot Migration** | ✅ **Complete** |
+| Week 33-35 | Aug 21-Sep 10 | Admin Panel (Bot) | 📋 Planned |
 
 ---
 
-## 🚀 Current Phase: Telegram Bot - Consumption Billing (Phase 4)
+## 🚀 Multi-Bot Architecture
 
-### **Commands to Implement:**
-- `/consumo` - Consumption menu
-- `/activar` - Activate consumption mode
-- `/cancelar` - Cancel consumption mode
-- `/factura` - View invoices
+### **Main Bot (@usipipobot) - v0.9.0**
 
-### **Integration Points:**
-- Backend: GET /api/v1/consumption/status
-- Backend: POST /api/v1/consumption/activate
-- Backend: POST /api/v1/consumption/cancel
-- Backend: GET /api/v1/consumption/invoices
-
----
-
-## 📚 Legacy Bot Migration Summary
-
-### **Overview**
-
-Migrating Telegram Bot from legacy monorepo to dedicated repository with production-ready architecture.
-
-**Source:** `/home/mowgli/usipipobot/telegram_bot/` (92 Python files)
-**Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.4.0)
-**Progress:** ~35% (33/92 files migrated)
-
-### **Legacy Structure**
+**Commands:**
 ```
-/home/mowgli/usipipobot/telegram_bot/
-├── common/                      ← Shared utilities (5 files)
-├── features/                    ← Feature modules (70+ files)
-│   ├── admin/                   ← Admin panel (14 files)
-│   ├── admin_vpn/               ← VPN admin (10 files)
-│   ├── basic_commands/          ← Basic commands ✅ MIGRATED
-│   ├── buy_gb/                  ← Data packages (10 files)
-│   ├── consumption/             ← Consumption billing (10 files)
-│   ├── key_management/          ← User VPN keys (8 files)
-│   ├── operations/              ← Operations menu (4 files)
-│   ├── payments/                ← Payments (8 files)
-│   ├── profile/                 ← User profile (4 files)
-│   ├── referrals/               ← Referral system (4 files)
-│   ├── subscriptions/           ← Subscription management (6 files)
-│   └── tickets/                 ← Support tickets (6 files)
-├── handlers/                    ← Main handlers
-├── keyboards/                   ← Main keyboards
-└── main.py                      ← Entry point
+/start       - Iniciar bot
+/help        - Mostrar ayuda
+/me          - Ver perfil
+/unlink      - Revocar acceso
+/keys        - Gestionar VPN keys
+/newkey      - Crear nueva key
+/delkey      - Eliminar key
+/qr          - Mostrar QR
+/operaciones - Menú de operaciones
+/consumo     - Consumo billing
+/activar     - Activar consumo
+/cancelar    - Cancelar consumo
+/factura     - Ver facturas
+/comprar     - Comprar paquetes
+/paquetes    - Ver paquetes
+/pago        - Pagos
+/pagar       - Pagar
+/historial   - Historial de pagos
+/suscripcion - Ver suscripción
+/planes      - Ver planes
+/renovar     - Renovar suscripción
+/referidos   - Ver referidos
+/invitar     - Obtener link de invitación
 ```
 
-### **Migration Priority (Easiest → Hardest)**
-
-| Priority | Feature | Files | Complexity | Effort | Status |
-|----------|---------|-------|------------|--------|--------|
-| **P0** | **VPN Key Management** | 8 | ⭐⭐ Low | 4-6h | ✅ **Complete** |
-| **P1** | **Operations Menu** | 4 | ⭐⭐ Low | 2-3h | ✅ **Complete** |
-| **P1** | **User Profile** | 4 | ⭐⭐ Low | 2-3h | ✅ **Complete** |
-| **P2** | **Consumption Billing** | 10 | ⭐⭐⭐ Medium | 6-8h | ✅ **Complete** |
-| **P3** | **Data Packages** | 10 | ⭐⭐⭐ Medium | 6-8h | ✅ **Complete** |
-| **P4** | **Payments** | 8 | ⭐⭐⭐⭐ Med-Hard | 8-10h | ✅ **Complete** |
-| **P5** | **Subscriptions** | 6 | ⭐⭐⭐⭐ Med-Hard | 6-8h | ✅ **Complete** |
-| **P6** | **Referrals** | 4 | ⭐⭐⭐ Medium | 4-6h | ✅ **Complete** |
-| **P7** | **Tickets** | 6 | ⭐⭐⭐ Medium | 4-6h | ✅ **Complete** |
-| **P8** | **Admin Panel** | 24 | ⭐⭐⭐⭐⭐ Hard | 16-20h | 🟡 **Next** |
-
-### **Migration Progress by Phase**
-
-| Phase | Feature | Files | Status | Progress |
-|-------|---------|-------|--------|----------|
-| **Phase 1** | **Auth + Infrastructure** | 12 | ✅ Complete | 100% |
-| **Phase 2** | **VPN Key Management** | 8 | ✅ Complete | 100% |
-| **Phase 3** | **Operations + Profile** | 8 | ✅ Complete | 100% |
-| **Phase 4** | **Consumption + Packages** | 16 | ✅ Complete | 100% |
-| **Phase 5** | **Payments + Subscriptions** | 14 | ✅ Complete | 100% |
-| **Phase 6** | **Referrals + Tickets** | 10 | ✅ Complete | 100% |
-| **Phase 7** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~75%** |
-
-### **Detailed Migration Guide**
-
-For complete migration details including:
-- Legacy file mappings
-- Backend endpoint requirements
-- Estimated effort per feature
-- Migration roadmap
-
-**See:** [`/plans/LEGACY-BOT-MIGRATION-SUMMARY.md`](LEGACY-BOT-MIGRATION-SUMMARY.md)
-
-### **Recommendations**
-
-**Start With (Easiest):**
-1. ✅ **Phase 1: Auth** - COMPLETE
-2. ✅ **Phase 2: VPN Key Management** - COMPLETE
-3. ✅ **Phase 3: Operations + Profile** - COMPLETE
-4. 🟡 **Phase 4: Consumption Billing** - Next (6-8 hours)
-
-**Why This Order:**
-- ✅ Low complexity - Simple CRUD operations
-- ✅ High value - Core user functionality
-- ✅ Backend ready - All endpoints available
-- ✅ Quick wins - Build momentum
-
-**Leave for Last (Hardest):**
-- ⚠️ Admin Panel - Requires access control, complex UI
-- ⚠️ Payments - Requires thorough testing, security critical
-- ⚠️ Subscriptions - Complex state management
-
-**Estimated Total Effort Remaining:** 44-58 hours
+**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
 
 ---
 
-## 🔧 Infrastructure: All Tasks Complete
+### **Support Bot (@uSipipoSupport_Bot) - v0.1.0**
 
-### ✅ Backend Systemd Service
-- [x] Service file created
-- [x] Environment variables configured
-- [x] Service enabled and running (port 8001)
-- [x] Logs verified
+**Commands:**
+```
+/start       - Iniciar bot
+/help        - Mostrar ayuda
+/tickets     - Ver mis tickets
+/nuevoticket - Crear nuevo ticket
+```
 
-### ✅ Landing Page Service
-- [x] Service running (port 5000)
-- [x] Bot links updated to `@usipipobot`
-- [x] Pricing updated to Telegram Stars
+**Features:**
+- ✅ Ticket creation with category selection
+- ✅ Ticket listing with status indicators
+- ✅ Ticket detail view
+- ✅ Ticket closure
+- ✅ Message history (planned)
+- ✅ JWT authentication with auto-refresh
 
-### ✅ Caddy Configuration
-- [x] Path prefix routing configured
-- [x] `/api/*` → Backend API (:8001)
-- [x] `/miniapp/*` → Mini App (:8000)
-- [x] `/docs/*` → Docs Site (:4000) - Ready
-
-### ✅ GitHub Wiki
-- [x] 4 pages published
-- [x] API Reference (50+ endpoints)
-- [x] Authentication Guide
-- [x] Error Codes Reference
-
-### ✅ TronDealer Configuration
-- [x] API key configured in .env
-- [x] Webhook secret configured in .env
-- [x] Sweep wallet configured
-- [x] Webhook endpoint tested and working
-
-### ✅ Telegram Bot CI/CD
-- [x] GitHub Actions workflow (ci.yml)
-- [x] Pre-commit configuration
-- [x] Branch protection enabled
-- [x] Admin bypass configured
-- [x] Integration tests passing
+**Release:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
 
 ---
 
@@ -609,100 +204,77 @@ For complete migration details including:
 - **TronDealer Tutorial:** `docs/TRONDEALER_TUTORIAL.md`
 - **Releases:** https://github.com/uSipipo-Team/usipipo-backend/releases
 
-### **Bot Documentation**
-- **Integration Test Summary:** `INTEGRATION-TEST-SUMMARY.md`
+### **Main Bot Documentation**
+- **Release v0.9.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
 - **CI/CD Workflow:** `.github/workflows/ci.yml`
-- **Pre-commit Config:** `.pre-commit-config.yaml`
-- **CHANGELOG:** `CHANGELOG.md`
-- **PRs:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pulls
+
+### **Support Bot Documentation (NEW!)**
+- **Repo:** https://github.com/uSipipo-Team/usipipo-support-bot
+- **Release v0.1.0:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
+- **Design Doc:** https://github.com/uSipipo-Team/usipipo-docs/tree/main/plans/support-bot/
+- **Architecture:** https://github.com/uSipipo-Team/usipipo-docs/tree/main/support-bot/ARCHITECTURE.md
+- **Deployment:** https://github.com/uSipipo-Team/usipipo-docs/tree/main/support-bot/DEPLOYMENT.md
+- **User Guide:** https://github.com/uSipipo-Team/usipipo-docs/tree/main/support-bot/USER-GUIDE.md
 
 ### **Ecosystem Documentation**
-- **Context:** `/plans/ECOSYSTEM-CONTEXT.md` (single source of truth)
+- **Context:** `/plans/ECOSYSTEM-CONTEXT.md`
 - **Migration Progress:** `/plans/MIGRATION-PROGRESS.md`
-- **Legacy Bot Migration:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md` ⭐ **NEW**
-- **Auth Implementation:** `/plans/TELEGRAM-AUTH-IMPLEMENTATION.md`
-- **Prompting:** `/plans/sk-prompting.md`
+- **Multi-Bot Architecture:** `/plans/shared/MULTI-BOT-ARCHITECTURE.md`
+- **Legacy Bot Migration:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md`
 
 ---
 
-## 🎯 Configuration Summary
+## ✅ Completed Infrastructure Tasks
 
-### Backend (.env)
-```bash
-# Application
-APP_ENV=production
-DEBUG=False
-SECRET_KEY=<secure-key>
-DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/usipipo_db
-
-# Telegram
-TELEGRAM_TOKEN=1957471409:AAEo3qe63_ezVm8xexoGo9U5LcHEp8BWgDk
-ADMIN_ID=1058749165
-BOT_USERNAME=usipipobot
-
-# TronDealer (Crypto Payments)
-TRON_DEALER_API_KEY=td_30f5a4e18f0fb758aafe9351600b109e40070feb6ef418f3c0881105e89ab4ea
-TRON_DEALER_WEBHOOK_SECRET=daf01c2223836e61b5e0bb2205aae6f4e5fb1f95c9925734a422dc8f58e3ca0c
-TRON_DEALER_SWEEP_WALLET=0x01d6Ff77e79DBda826e6aD9a0104F99FddA9A105
-
-# Server
-SERVER_IP=0.0.0.0
-API_PORT=8001
-```
-
-### Bot (.env)
-```bash
-TELEGRAM_TOKEN=1957471409:AAEo3qe63_ezVm8xexoGo9U5LcHEp8BWgDk
-ADMIN_ID=1058749165
-BACKEND_URL=https://usipipo.duckdns.org
-API_PREFIX=/api/v1
-LOG_LEVEL=INFO
-REDIS_URL=redis://localhost:6379
-```
+- [x] Backend systemd service configured
+- [x] Landing page service running
+- [x] Caddy path prefix routing
+- [x] GitHub Wiki published (4 pages)
+- [x] Telegram token updated in .env
+- [x] usipipo-commons v0.12.0 on PyPI
+- [x] Backend v0.10.0 released
+- [x] TronDealer webhook migrated and tested
+- [x] TronDealer documentation added
+- [x] Main Bot CI/CD configured
+- [x] Support Bot CI/CD configured
+- [x] Branch protection enabled (all repos)
+- [x] Integration tests with production backend
+- [x] **Support Bot created & released (v0.1.0)**
+- [x] **Support Bot documentation complete**
+- [x] **Tickets migrated from main bot**
+- [x] **Main bot updated to v0.9.0**
+- [x] **Multi-bot documentation published**
 
 ---
 
-## ✅ Completed Features Checklist
+## 🚀 Next Steps
 
-- [x] Payments (crypto + Telegram Stars)
-- [x] VPN Management (WireGuard + Outline)
-- [x] Subscriptions (plans + activation)
-- [x] Consumption Billing (pay-as-you-go)
-- [x] User Management (CRUD + auth)
-- [x] Tickets/Support System
-- [x] Admin Panel (dashboard + user management)
-- [x] Data Packages
-- [x] Referrals
-- [x] Wallet Management (BSC + pools)
-- [x] **TronDealer Webhook** (NEW!)
-- [x] Multi-Client Architecture (4 weeks)
-- [x] Device Registration (push notifications)
-- [x] **Telegram Bot Invisible Auth** (NEW!)
-- [x] **Telegram Bot CI/CD** (NEW!)
-- [x] **Integration Tests** (NEW!)
+1. **Admin Panel Bot** (Next Phase)
+   ```bash
+   # Commands to implement:
+   # /admin - Admin dashboard
+   # /users - User management
+   # /keys - Key management (admin view)
+   # /tickets - Ticket management (admin view)
+   # /servers - Server monitoring
+   ```
 
----
+2. **Monitoring & Observability**
+   - Implement logging aggregation
+   - Set up alerts
+   - Dashboard creation
 
-## 📊 Test Coverage
-
-| Repository | Tests | Status | Coverage |
-|------------|-------|--------|----------|
-| **Backend** | 256 | ✅ All passing | 100% critical paths |
-| **Telegram Bot** | 149 | ✅ 149 passed | Integration + unit |
-| **Integration** | 6 | ✅ 6 passed | Production backend |
+3. **Documentation Portal**
+   - Deploy usipipo-docs on port 4000
 
 ---
 
 **Last Updated:** 2026-03-28
 **Backend Status:** 100% COMPLETE ✅ (v0.10.0)
 **Multi-Client Status:** 100% COMPLETE ✅
-**TronDealer Webhook:** COMPLETE ✅
-**Telegram Bot Auth:** 100% COMPLETE ✅ (v0.1.0)
-**Telegram Bot VPN Keys:** 100% COMPLETE ✅ (v0.3.0)
-**Telegram Bot Operations:** 100% COMPLETE ✅ (v0.4.0)
-**Telegram Bot Consumption + Packages:** 100% COMPLETE ✅ (v0.6.0)
-**Telegram Bot Payments + Subscriptions:** 100% COMPLETE ✅ (v0.7.0/v0.7.1)
-**Telegram Bot Referrals + Tickets:** 100% COMPLETE ✅ (v0.8.0)
-**Integration Tests:** 295 tests (295 passed) ✅
-**Legacy Bot Migration:** ~75% complete (68/92 files)
-**Next:** Admin Panel (Phase 7) - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md`
+**Multi-Bot Status:** 100% COMPLETE ✅
+**Main Bot:** v0.9.0 (Tickets migrated) ✅
+**Support Bot:** v0.1.0 (Production Ready) ✅
+**Tests:** 348 total (348 passed) ✅
+**Documentation:** Complete ✅
+**Next:** Admin Panel Bot

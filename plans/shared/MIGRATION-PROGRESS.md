@@ -1,7 +1,7 @@
 # Migration Progress - Monorepo to Multi-Repo
 
 **Date:** 2026-03-28
-**Status:** BACKEND 100% + TELEGRAM BOT 65% + INFRASTRUCTURE COMPLETE! 🎉
+**Status:** BACKEND 100% + TELEGRAM BOT 75% + INFRASTRUCTURE COMPLETE! 🎉
 **Branch:** `main` (backend) | `main` (telegram-bot) | `main` (commons) | `main` (landing)
 
 ---
@@ -19,9 +19,9 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 **Legacy Bot Migration:**
 - **Source:** `/home/mowgli/usipipobot/telegram_bot/` (92 Python files)
-- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.7.1)
-- **Progress:** ~65% (60/92 files migrated)
-- **Next:** Referrals + Tickets (Phase 7)
+- **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.8.0)
+- **Progress:** ~75% (68/92 files migrated)
+- **Next:** Admin Panel (Phase 8)
 - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md` for complete migration guide
 
 ---
@@ -74,6 +74,60 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - **v0.7.0:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.7.0
 
 **PR:** https://github.com/uSipipo-Team/usipipo-telegram-bot/pull/10 (merged)
+
+---
+
+## 🎉 TELEGRAM BOT v0.8.0 (2026-03-28)
+
+### **Referrals + Tickets Complete**
+
+**What's New in v0.8.0:**
+- ✅ **Referrals System** - Invite friends, earn credits
+- ✅ **Tickets System** - Support ticket management
+- ✅ **Commands:** `/referidos`, `/invitar`, `/tickets`, `/nuevoticket`, `/mistickets`
+- ✅ **Keyboards:** 8+ inline keyboard layouts
+- ✅ **Messages:** 13+ message categories
+- ✅ **Tests:** 32 new unit tests (295 total: 295 passed)
+- ✅ **Quality:** ruff (passed), mypy (clean), 100% test pass rate
+
+**v0.8.0 Features:**
+- ✅ Referral stats display with credits
+- ✅ Referral link generation
+- ✅ Credit redemption (10 credits = 1 GB)
+- ✅ Ticket creation with category selection
+- ✅ Ticket list with status indicators
+- ✅ Ticket detail view
+- ✅ Ticket closure
+- ✅ Redis token storage with auto-refresh
+- ✅ AuthHandler with invisible auth flow
+- ✅ 32 new tests (295 total: 295 passed)
+- ✅ CI/CD workflow (Ruff, Mypy, Pytest, Bandit)
+- ✅ Pre-commit configuration
+- ✅ Branch protection enabled (admin bypass)
+- ✅ Integration tests with production backend
+
+**Files Created:**
+- `src/bot/handlers/referrals.py` (~400 lines)
+- `src/bot/handlers/tickets.py` (~500 lines)
+- `src/bot/keyboards/referrals.py` (~120 lines)
+- `src/bot/keyboards/messages_referrals.py` (~180 lines)
+- `src/bot/keyboards/tickets.py` (~150 lines)
+- `src/bot/keyboards/messages_tickets.py` (~220 lines)
+- `tests/bot/test_referrals_handlers.py` (13 tests)
+- `tests/bot/test_tickets_handlers.py` (15 tests)
+- `tests/integration/test_referrals_integration.py` (2 tests)
+- `tests/integration/test_tickets_integration.py` (2 tests)
+
+**Backend Integration:**
+- GET /api/v1/referrals/me - Get referral stats
+- POST /api/v1/referrals/apply - Apply referral code
+- POST /api/v1/referrals/redeem - Redeem credits for data
+- POST /api/v1/tickets - Create support ticket
+- GET /api/v1/tickets - List user tickets
+- GET /api/v1/tickets/{id} - Get ticket with messages
+- PATCH /api/v1/tickets/{id}/close - Close ticket
+
+**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.8.0
 
 ---
 
@@ -449,13 +503,13 @@ Migrating Telegram Bot from legacy monorepo to dedicated repository with product
 | **P0** | **VPN Key Management** | 8 | ⭐⭐ Low | 4-6h | ✅ **Complete** |
 | **P1** | **Operations Menu** | 4 | ⭐⭐ Low | 2-3h | ✅ **Complete** |
 | **P1** | **User Profile** | 4 | ⭐⭐ Low | 2-3h | ✅ **Complete** |
-| **P2** | **Consumption Billing** | 10 | ⭐⭐⭐ Medium | 6-8h | 🟡 Next |
-| **P3** | **Data Packages** | 10 | ⭐⭐⭐ Medium | 6-8h | ⏳ Planned |
-| **P4** | **Payments** | 8 | ⭐⭐⭐⭐ Med-Hard | 8-10h | ⏳ Planned |
-| **P5** | **Subscriptions** | 6 | ⭐⭐⭐⭐ Med-Hard | 6-8h | ⏳ Planned |
-| **P6** | **Referrals** | 4 | ⭐⭐⭐ Medium | 4-6h | ⏳ Planned |
-| **P7** | **Tickets** | 6 | ⭐⭐⭐ Medium | 4-6h | ⏳ Planned |
-| **P8** | **Admin Panel** | 24 | ⭐⭐⭐⭐⭐ Hard | 16-20h | ⏳ Planned |
+| **P2** | **Consumption Billing** | 10 | ⭐⭐⭐ Medium | 6-8h | ✅ **Complete** |
+| **P3** | **Data Packages** | 10 | ⭐⭐⭐ Medium | 6-8h | ✅ **Complete** |
+| **P4** | **Payments** | 8 | ⭐⭐⭐⭐ Med-Hard | 8-10h | ✅ **Complete** |
+| **P5** | **Subscriptions** | 6 | ⭐⭐⭐⭐ Med-Hard | 6-8h | ✅ **Complete** |
+| **P6** | **Referrals** | 4 | ⭐⭐⭐ Medium | 4-6h | ✅ **Complete** |
+| **P7** | **Tickets** | 6 | ⭐⭐⭐ Medium | 4-6h | ✅ **Complete** |
+| **P8** | **Admin Panel** | 24 | ⭐⭐⭐⭐⭐ Hard | 16-20h | 🟡 **Next** |
 
 ### **Migration Progress by Phase**
 
@@ -464,11 +518,11 @@ Migrating Telegram Bot from legacy monorepo to dedicated repository with product
 | **Phase 1** | **Auth + Infrastructure** | 12 | ✅ Complete | 100% |
 | **Phase 2** | **VPN Key Management** | 8 | ✅ Complete | 100% |
 | **Phase 3** | **Operations + Profile** | 8 | ✅ Complete | 100% |
-| **Phase 4** | **Consumption + Packages** | 16 | 🟡 Next | 0% |
-| **Phase 5** | **Payments + Subscriptions** | 14 | ⏳ Planned | 0% |
-| **Phase 6** | **Referrals + Tickets** | 10 | ⏳ Planned | 0% |
+| **Phase 4** | **Consumption + Packages** | 16 | ✅ Complete | 100% |
+| **Phase 5** | **Payments + Subscriptions** | 14 | ✅ Complete | 100% |
+| **Phase 6** | **Referrals + Tickets** | 10 | ✅ Complete | 100% |
 | **Phase 7** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~35%** |
+| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~75%** |
 
 ### **Detailed Migration Guide**
 
@@ -636,13 +690,16 @@ REDIS_URL=redis://localhost:6379
 
 ---
 
-**Last Updated:** 2026-03-27
+**Last Updated:** 2026-03-28
 **Backend Status:** 100% COMPLETE ✅ (v0.10.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **TronDealer Webhook:** COMPLETE ✅
 **Telegram Bot Auth:** 100% COMPLETE ✅ (v0.1.0)
 **Telegram Bot VPN Keys:** 100% COMPLETE ✅ (v0.3.0)
 **Telegram Bot Operations:** 100% COMPLETE ✅ (v0.4.0)
-**Integration Tests:** 149 tests (149 passed) ✅
-**Legacy Bot Migration:** ~35% complete (33/92 files)
-**Next:** Consumption Billing in Bot (Phase 4) - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md`
+**Telegram Bot Consumption + Packages:** 100% COMPLETE ✅ (v0.6.0)
+**Telegram Bot Payments + Subscriptions:** 100% COMPLETE ✅ (v0.7.0/v0.7.1)
+**Telegram Bot Referrals + Tickets:** 100% COMPLETE ✅ (v0.8.0)
+**Integration Tests:** 295 tests (295 passed) ✅
+**Legacy Bot Migration:** ~75% complete (68/92 files)
+**Next:** Admin Panel (Phase 7) - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md`

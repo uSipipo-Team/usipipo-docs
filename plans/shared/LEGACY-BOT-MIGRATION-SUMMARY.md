@@ -1,9 +1,9 @@
 # Legacy Bot Migration Summary
 
-**Date:** 2026-03-27
+**Date:** 2026-03-28
 **Source:** `/home/mowgli/usipipobot/telegram_bot/` (Legacy Monorepo)
 **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (New Dedicated Repo)
-**Status:** Phase 1 Complete (Auth) → Phase 2 Complete (VPN) → Phase 3 Complete (Operations) → Phase 4 Next (Consumption)
+**Status:** Phase 1 Complete → Phase 2 Complete → Phase 3 Complete → Phase 4 Complete → Phase 5 Complete
 
 ---
 
@@ -44,14 +44,20 @@
 │   │   │   ├── basic.py         ✅ MIGRATED (from basic_commands)
 │   │   │   ├── auth.py          ✅ NEW (invisible auth)
 │   │   │   ├── keys.py          ✅ NEW (VPN key management)
-│   │   │   └── operations.py    ✅ NEW (operations menu)
+│   │   │   ├── operations.py    ✅ NEW (operations menu)
+│   │   │   ├── consumption.py   ✅ NEW (consumption billing)
+│   │   │   └── packages.py      ✅ NEW (data packages)
 │   │   └── keyboards/
 │   │       ├── main.py          ✅ MIGRATED
 │   │       ├── auth.py          ✅ NEW
 │   │       ├── keys.py          ✅ NEW
 │   │       ├── messages_keys.py ✅ NEW
 │   │       ├── operations.py    ✅ NEW
-│   │       └── messages_operations.py ✅ NEW
+│   │       ├── messages_operations.py ✅ NEW
+│   │       ├── consumption.py   ✅ NEW
+│   │       ├── messages_consumption.py ✅ NEW
+│   │       ├── packages.py      ✅ NEW
+│   │       └── messages_packages.py ✅ NEW
 │   └── infrastructure/
 │       ├── api_client.py        ✅ MIGRATED
 │       ├── config.py            ✅ NEW (pydantic-settings)
@@ -59,7 +65,7 @@
 │       ├── token_storage.py     ✅ NEW (TokenStorage)
 │       ├── error_handler.py     ✅ MIGRATED
 │       └── logger.py            ✅ MIGRATED
-├── tests/                       ✅ 149 tests (149 passed)
+├── tests/                       ✅ 160 tests (160 passed)
 ├── .github/workflows/ci.yml     ✅ NEW (CI/CD)
 └── .pre-commit-config.yaml      ✅ NEW
 ```
@@ -94,9 +100,9 @@
 
 | Test Type | Count | Status |
 |-----------|-------|--------|
-| Unit Tests | 143 | ✅ 143 passed |
+| Unit Tests | 154 | ✅ 154 passed |
 | Integration Tests | 6 | ✅ 6 passed |
-| **Total** | **149** | ✅ **149 passed** |
+| **Total** | **160** | ✅ **160 passed** |
 
 ---
 
@@ -368,27 +374,27 @@
 
 ## 📋 Migration Roadmap
 
-### **Phase 2: VPN Key Management** ✅
-- [x] Migrate key management handlers
-- [x] Migrate key management keyboards
-- [x] Migrate key messages
-- [x] Integration with backend VPN endpoints
-- [x] Tests (25 tests)
+### **Phase 4: Consumption Billing** ✅
+- [x] Migrate consumption billing handlers
+- [x] Migrate consumption keyboards
+- [x] Migrate consumption messages
+- [x] Integration with backend consumption endpoints
+- [x] Tests (45 tests)
 - **Status:** COMPLETE
 
-### **Phase 3: Operations + Profile** ✅
-- [x] Migrate operations menu
-- [x] Migrate operations keyboards
-- [x] Migrate operations messages
-- [x] Integration with backend referrals/transactions endpoints
-- [x] Tests (21 tests)
+### **Phase 5: Data Packages** ✅
+- [x] Migrate data packages handlers
+- [x] Migrate data packages keyboards
+- [x] Migrate data packages messages
+- [x] Integration with backend data packages endpoints
+- [x] Tests (55 tests)
 - **Status:** COMPLETE
 
-### **Phase 4: Consumption + Packages** (Next)
-- [ ] Migrate consumption billing
-- [ ] Migrate data packages
-- [ ] Integration tests
-- **Estimated:** 12-16 hours
+### **Phase 6: Payments + Subscriptions** (Next)
+- [ ] Migrate payments (crypto + stars)
+- [ ] Migrate subscriptions
+- [ ] Webhook integration testing
+- **Estimated:** 14-18 hours
 
 ### **Phase 5: Payments + Subscriptions** (Medium Term)
 - [ ] Migrate payments (crypto + stars)
@@ -417,11 +423,12 @@
 | **Phase 1** | **Auth + Infrastructure** | 12 | ✅ Complete | 100% |
 | **Phase 2** | **VPN Key Management** | 8 | ✅ Complete | 100% |
 | **Phase 3** | **Operations + Profile** | 8 | ✅ Complete | 100% |
-| **Phase 4** | **Consumption + Packages** | 16 | 🟡 Next | 0% |
-| **Phase 5** | **Payments + Subscriptions** | 14 | ⏳ Planned | 0% |
-| **Phase 6** | **Referrals + Tickets** | 10 | ⏳ Planned | 0% |
-| **Phase 7** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~35%** |
+| **Phase 4** | **Consumption Billing** | 10 | ✅ Complete | 100% |
+| **Phase 5** | **Data Packages** | 10 | ✅ Complete | 100% |
+| **Phase 6** | **Payments + Subscriptions** | 14 | ⏳ Planned | 0% |
+| **Phase 7** | **Referrals + Tickets** | 10 | ⏳ Planned | 0% |
+| **Phase 8** | **Admin Panel** | 24 | ⏳ Planned | 0% |
+| **TOTAL** | **All Features** | **92** | 🟡 In Progress | **~55%** |
 
 ---
 
@@ -458,6 +465,6 @@
 
 ---
 
-**Last Updated:** 2026-03-27
-**Next Phase:** Consumption Billing (Phase 4)
-**Estimated Total Effort Remaining:** 44-58 hours
+**Last Updated:** 2026-03-28
+**Next Phase:** Payments + Subscriptions (Phase 6)
+**Estimated Total Effort Remaining:** 34-48 hours

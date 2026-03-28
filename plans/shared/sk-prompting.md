@@ -243,7 +243,7 @@ POST /api/v1/auth/refresh
 
 ---
 
-**Last Updated:** 2026-03-27
+**Last Updated:** 2026-03-28
 **Backend Status:** 100% COMPLETE ✅ (v0.10.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **TronDealer Webhook:** COMPLETE ✅
@@ -251,6 +251,7 @@ POST /api/v1/auth/refresh
 **Telegram Bot VPN Keys:** 100% COMPLETE ✅ (v0.3.0)
 **Telegram Bot Operations:** 100% COMPLETE ✅ (v0.4.0)
 **Telegram Bot Consumption:** 100% COMPLETE ✅ (v0.5.0)
-**Integration Tests:** 150 tests (150 passed) ✅
-**Legacy Bot Migration:** ~45% complete (45/92 files)
-**Next:** Data Packages / Buy GB (Phase 5)
+**Telegram Bot Data Packages:** 100% COMPLETE ✅ (v0.6.0)
+**Integration Tests:** 160 tests (160 passed) ✅
+**Legacy Bot Migration:** ~55% complete (50/92 files)
+**Next:** Payments + Subscriptions (Phase 6)

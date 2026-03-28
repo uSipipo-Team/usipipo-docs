@@ -3,6 +3,7 @@
 **Date:** 2026-03-28
 **Status:** BACKEND 100% + TELEGRAM BOT 75% + INFRASTRUCTURE COMPLETE! 🎉
 **Branch:** `main` (backend) | `main` (telegram-bot) | `main` (commons) | `main` (landing)
+**Latest Release:** v0.8.0 - Referrals + Tickets ✅
 
 ---
 
@@ -13,7 +14,7 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - ✅ `usipipo-backend` - Backend API **v0.10.0** (100% features + auth invisible)
 - ✅ `usipipo-landing` - Landing Page (updated with pricing & bot links)
 - ✅ `usipipo-backend.wiki` - GitHub Wiki documentation (4 pages)
-- ✅ `usipipo-telegram-bot` - Bot **v0.7.1** (Auth + VPN Keys + Operations + Consumption + Data Packages + Payments + Subscriptions complete!)
+- ✅ `usipipo-telegram-bot` - Bot **v0.8.0** (Auth + VPN Keys + Operations + Consumption + Data Packages + Payments + Subscriptions + Referrals + Tickets complete!)
 - ⏳ `usipipo-miniapp-web` - Mini App (Pending)
 - ⏳ `usipipo-docs` - Documentation Portal (Planned after Bot)
 
@@ -22,6 +23,8 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - **Target:** `/home/mowgli/usipipo/usipipo-telegram-bot/` (v0.8.0)
 - **Progress:** ~75% (68/92 files migrated)
 - **Next:** Admin Panel (Phase 8)
+- **Tests:** 323 tests (319 passed, 1 skipped, 3 pre-existing failures)
+- **Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.8.0
 - **See:** `/plans/LEGACY-BOT-MIGRATION-SUMMARY.md` for complete migration guide
 
 ---

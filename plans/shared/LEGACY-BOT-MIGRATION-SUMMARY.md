@@ -15,8 +15,8 @@ The uSipipo ecosystem now uses a **multi-bot architecture** with specialized bot
 
 | Bot | Handle | Version | Purpose | Status |
 |-----|--------|---------|---------|--------|
-| **Main Bot** | `@usipipobot` | v0.9.0 | VPN, Payments, Subscriptions, etc. | ✅ Production |
-| **Support Bot** | `@uSipipoSupport_Bot` | v0.1.0 | Support Tickets | ✅ Production |
+| **Main Bot** | `@usipipobot` | v1.2.0 | VPN, Payments, Subscriptions, etc. + MainMenuKeyboard | ✅ Production |
+| **Support Bot** | `@uSipipoSupport_Bot` | v0.2.0 | Support Tickets + Welcome Menu | ✅ Production |
 
 ---
 
@@ -131,11 +131,21 @@ The uSipipo ecosystem now uses a **multi-bot architecture** with specialized bot
 - Ticket creation (user-facing)
 - **10 files, 32 tests**
 
-### **Phase 8: Tickets Migration to Support Bot** ✅ **NEW!**
+### **Phase 8: Tickets Migration to Support Bot** ✅
 - **Tickets extracted from main bot**
 - **Dedicated support bot created**
 - **58 tests migrated**
 - **Main bot v0.9.0, Support bot v0.1.0**
+
+### **Phase 9: MainMenuKeyboard + Soporte Técnico** ✅ **NEW!**
+- **MainMenuKeyboard** con botones inline en @usipipobot
+- **Botón "💬 Soporte Técnico"** → Deep link a @usipipo-support-bot
+- **Support Bot v0.2.0** con welcome menu profesional
+- **Deep link handling** (?start=help_from_main)
+- **ConversationHandler** para creación de claves
+- **APIClient.delete()** method agregado
+- **GET /users/me** endpoint en backend
+- **Main bot v1.2.0, Support bot v0.2.0, Backend v0.11.0**
 
 ---
 
@@ -151,14 +161,17 @@ The uSipipo ecosystem now uses a **multi-bot architecture** with specialized bot
 | **Phase 6** | **Payments + Subscriptions** | 14 | ✅ Complete | 100% |
 | **Phase 7** | **Referrals** | 4 | ✅ Complete | 100% |
 | **Phase 8** | **Tickets → Support Bot** | 7 | ✅ Complete | 100% |
-| **Phase 9** | **Admin Panel** | 24 | ⏳ Planned | 0% |
-| **TOTAL** | **User Features** | **73** | ✅ **Complete** | **100%** |
+| **Phase 9** | **MainMenu + Soporte** | 10 | ✅ Complete | 100% |
+| **Phase 10** | **Admin Panel** | 24 | ⏳ Planned | 0% |
+| **TOTAL** | **User Features** | **83** | ✅ **Complete** | **100%** |
 
 ---
 
 ## 🎉 Releases
 
 ### **Main Bot Releases**
+- **v1.2.0** (2026-03-28): MainMenuKeyboard + Soporte Técnico
+  - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v1.2.0
 - **v0.9.0** (2026-03-28): Tickets Migration
   - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
 - **v0.8.0** (2026-03-28): Referrals + Tickets
@@ -181,6 +194,8 @@ The uSipipo ecosystem now uses a **multi-bot architecture** with specialized bot
   - https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.1.0
 
 ### **Support Bot Releases - NEW!**
+- **v0.2.0** (2026-03-28): Welcome Menu + Deep Link Handling
+  - https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.2.0
 - **v0.1.0** (2026-03-28): Initial Release
   - https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
 
@@ -237,8 +252,8 @@ The uSipipo ecosystem now uses a **multi-bot architecture** with specialized bot
 ---
 
 **Last Updated:** 2026-03-28
-**Main Bot Version:** v0.9.0
-**Support Bot Version:** v0.1.0
+**Main Bot Version:** v1.2.0
+**Support Bot Version:** v0.2.0
 **User Features:** 100% Complete ✅
-**Admin Panel:** Planned (Phase 9)
+**Admin Panel:** Planned (Phase 10)
 **Multi-Bot Architecture:** Production Ready ✅

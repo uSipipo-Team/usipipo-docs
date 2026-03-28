@@ -47,6 +47,56 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 ## 🎉 LATEST RELEASES (2026-03-28)
 
+### **Main Bot v1.2.0** (MainMenuKeyboard + Soporte Técnico)
+
+**What's New:**
+- ✅ **MainMenuKeyboard** con botones inline (🔑 Mis Claves, ➕ Nueva Clave, ⚙️ Operaciones, 💾 Mis Datos, ❓ Ayuda, 💬 Soporte)
+- ✅ **Botón "💬 Soporte Técnico"** → Deep link a @usipipo-support-bot?start=help_from_main
+- ✅ **SUPPORT_HELP message** con instrucciones detalladas para soporte
+- ✅ **FIX**: ConversationHandler para creación de claves (protocol_selected → name_received)
+- ✅ **FIX**: APIClient.delete() method agregado
+- ✅ **FIX**: ME_AUTHENTICATED message simplificado (sin plan_name, keys_count)
+- ✅ **FIX**: /users/me endpoint creado en backend
+- ✅ **FIX**: Auth headers agregados en me_handler
+- ✅ **Version:** 0.9.0 → 1.2.0
+
+**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v1.2.0
+
+---
+
+### **Support Bot v0.2.0** (Welcome Menu + Deep Link Handling)
+
+**What's New:**
+- ✅ **Welcome message profesional** con menú de botones inline
+- ✅ **SupportKeyboard.main_menu()** con 5 opciones (Tickets, Nuevo Ticket, Ayuda, Estado, Agente)
+- ✅ **Deep link handling** (?start=help_from_main → mensaje contextual)
+- ✅ **AuthMessages.WELCOME_RETURNING_USER** con información detallada
+- ✅ **AuthMessages.WELCOME_FROM_MAIN_BOT** para usuarios del bot principal
+- ✅ **support_menu.py handlers** para todos los botones del menú
+- ✅ **FIX**: SSL retry en OutlineClient.create_key() (fallback verify=False)
+- ✅ **FIX**: VpnKey creation con status=KeyStatus.ACTIVE (no is_active)
+- ✅ **FIX**: users_router import agregado en backend main.py
+- ✅ **systemd service** configurado y habilitado
+
+**Files Changed:** 6
+**Lines Added:** ~330
+
+**Release:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.2.0
+
+---
+
+### **Backend v0.11.0** (Users Endpoint + SSL Fixes)
+
+**What's New:**
+- ✅ **GET /users/me** endpoint para perfil de usuario
+- ✅ **FIX**: OutlineClient.create_key() SSL retry con verify=False fallback
+- ✅ **FIX**: VpnService.create_key() usa status=KeyStatus.ACTIVE
+- ✅ **FIX**: users_router import agregado en main.py
+
+**Release:** https://github.com/uSipipo-Team/usipipo-backend/releases/tag/v0.11.0
+
+---
+
 ### **Main Bot v0.9.0** (Tickets Migration - BREAKING CHANGE)
 
 **What's New:**
@@ -140,7 +190,7 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 ## 🚀 Multi-Bot Architecture
 
-### **Main Bot (@usipipobot) - v0.9.0**
+### **Main Bot (@usipipobot) - v1.2.0**
 
 **Commands:**
 ```
@@ -169,29 +219,50 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 /invitar     - Obtener link de invitación
 ```
 
-**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v0.9.0
+**MainMenuKeyboard:**
+```
+🔑 Mis Claves VPN    ➕ Nueva Clave
+⚙️ Operaciones       💾 Mis Datos
+❓ Ayuda             💬 Soporte Técnico → @usipipo-support-bot
+```
+
+**Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v1.2.0
 
 ---
 
-### **Support Bot (@uSipipoSupport_Bot) - v0.1.0**
+### **Support Bot (@uSipipoSupport_Bot) - v0.2.0**
 
 **Commands:**
 ```
-/start       - Iniciar bot
+/start       - Iniciar bot (muestra menú principal)
 /help        - Mostrar ayuda
 /tickets     - Ver mis tickets
 /nuevoticket - Crear nuevo ticket
 ```
 
+**Welcome Menu:**
+```
+🎫 Mis Tickets      📝 Nuevo Ticket
+❓ Ayuda / FAQ      📊 Estado del Servicio
+💬 Hablar con Agente
+```
+
+**Deep Links Soportados:**
+- `?start=help_from_main` → Mensaje contextual para usuarios de @usipipobot
+- `?start=ticket_issue` → Ir directo a crear ticket
+
 **Features:**
+- ✅ Welcome message profesional con menú de botones inline
+- ✅ Deep link handling para usuarios del bot principal
 - ✅ Ticket creation with category selection
 - ✅ Ticket listing with status indicators
 - ✅ Ticket detail view
 - ✅ Ticket closure
 - ✅ Message history (planned)
 - ✅ JWT authentication with auto-refresh
+- ✅ systemd service configured
 
-**Release:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.1.0
+**Release:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.2.0
 
 ---
 
@@ -232,18 +303,24 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - [x] GitHub Wiki published (4 pages)
 - [x] Telegram token updated in .env
 - [x] usipipo-commons v0.12.0 on PyPI
-- [x] Backend v0.10.0 released
+- [x] Backend v0.11.0 released
 - [x] TronDealer webhook migrated and tested
 - [x] TronDealer documentation added
 - [x] Main Bot CI/CD configured
 - [x] Support Bot CI/CD configured
 - [x] Branch protection enabled (all repos)
 - [x] Integration tests with production backend
-- [x] **Support Bot created & released (v0.1.0)**
+- [x] **Support Bot created & released (v0.2.0)**
 - [x] **Support Bot documentation complete**
 - [x] **Tickets migrated from main bot**
-- [x] **Main bot updated to v0.9.0**
+- [x] **Main bot updated to v1.2.0**
 - [x] **Multi-bot documentation published**
+- [x] **MainMenuKeyboard implemented**
+- [x] **Deep link handling implemented**
+- [x] **ConversationHandler para creación de claves**
+- [x] **APIClient.delete() method**
+- [x] **GET /users/me endpoint**
+- [x] **Support Bot systemd service** habilitado
 
 ---
 
@@ -270,11 +347,11 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 ---
 
 **Last Updated:** 2026-03-28
-**Backend Status:** 100% COMPLETE ✅ (v0.10.0)
+**Backend Status:** 100% COMPLETE ✅ (v0.11.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**Main Bot:** v0.9.0 (Tickets migrated) ✅
-**Support Bot:** v0.1.0 (Production Ready) ✅
+**Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
+**Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅
 **Tests:** 348 total (348 passed) ✅
 **Documentation:** Complete ✅
 **Next:** Admin Panel Bot

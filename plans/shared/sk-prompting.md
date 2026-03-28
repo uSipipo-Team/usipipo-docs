@@ -29,29 +29,65 @@
 - **Week 4:** Device Registration (push notifications) ✅
 
 #### ✅ Multi-Bot Architecture Completada:
-- **@usipipobot** (Main Bot) - v0.9.0 ✅
+- **@usipipobot** (Main Bot) - v1.2.0 ✅
   - VPN Keys, Payments, Subscriptions, Consumption, Data Packages, Referrals
+  - MainMenuKeyboard con botones inline
+  - Botón "💬 Soporte Técnico" → @usipipo-support-bot
   - Tickets migrados a @uSipipoSupport_Bot
-- **@uSipipoSupport_Bot** (Support Bot) - v0.1.0 ✅
+- **@uSipipoSupport_Bot** (Support Bot) - v0.2.0 ✅
   - Ticket management system
+  - Welcome menu con botones inline
+  - Deep link handling (?start=help_from_main)
   - 58 tests (100% passing)
   - CI/CD configurado
-  - Production ready
+  - Production ready (systemd service)
 
 #### ✅ Infraestructura Completada:
-- **Backend API** v0.10.0 - Running on port 8001 ✅
+- **Backend API** v0.11.0 - Running on port 8001 ✅
 - **Landing Page** - Running on port 5000 ✅
 - **Caddy Proxy** - Path prefix routing configured ✅
 - **GitHub Wiki** - 4 pages published ✅
 - **usipipo-commons** v0.12.0 - Published on PyPI ✅
 - **TronDealer Webhook** - Migrado y testeado ✅
 - **Telegram Bot CI/CD** - Configurado ✅
+- **Support Bot CI/CD** - Configurado ✅
 - **Branch Protection** - All repos ✅
-- **Support Bot** - Deployed & Released ✅
+- **Support Bot** - Deployed & Released (systemd service) ✅
+- **Main Menu Keyboard** - Implemented ✅
+- **Deep Link Handling** - Implemented ✅
 
 ---
 
 ## 🎉 LATEST RELEASES (2026-03-28)
+
+### **Telegram Bot v1.2.0** (MainMenuKeyboard + Soporte Técnico + Fixes)
+- **NEW**: MainMenuKeyboard con botones inline (🔑 Mis Claves, ➕ Nueva Clave, ⚙️ Operaciones, 💾 Mis Datos, ❓ Ayuda, 💬 Soporte)
+- **NEW**: Botón "💬 Soporte Técnico" redirige a @usipipo-support-bot?start=help_from_main
+- **NEW**: SUPPORT_HELP message con instrucciones detalladas para soporte
+- **FIX**: ConversationHandler para creación de claves (select_protocol → name_received)
+- **FIX**: APIClient.delete() method agregado
+- **FIX**: ME_AUTHENTICATED message simplificado (sin plan_name, keys_count)
+- **FIX**: /users/me endpoint creado en backend
+- **FIX**: Auth headers agregados en me_handler
+- **Release:** https://github.com/uSipipo-Team/usipipo-telegram-bot/releases/tag/v1.2.0
+
+### **Support Bot v0.2.0** (Welcome Menu + Deep Link Handling)
+- **NEW**: Welcome message profesional con menú de botones inline
+- **NEW**: SupportKeyboard.main_menu() con 5 opciones (Tickets, Nuevo Ticket, Ayuda, Estado, Agente)
+- **NEW**: Deep link handling (?start=help_from_main → mensaje contextual)
+- **NEW**: AuthMessages.WELCOME_RETURNING_USER con información detallada
+- **NEW**: AuthMessages.WELCOME_FROM_MAIN_BOT para usuarios del bot principal
+- **NEW**: support_menu.py handlers para todos los botones del menú
+- **FIX**: SSL retry en OutlineClient.create_key() (fallback verify=False)
+- **FIX**: VpnKey creation con status=KeyStatus.ACTIVE (no is_active)
+- **FIX**: users_router import agregado en backend main.py
+- **Release:** https://github.com/uSipipo-Team/usipipo-support-bot/releases/tag/v0.2.0
+
+### **Backend v0.11.0** (Users Endpoint + SSL Fixes)
+- **NEW**: GET /users/me endpoint para perfil de usuario
+- **FIX**: OutlineClient.create_key() SSL retry con verify=False fallback
+- **FIX**: VpnService.create_key() usa status=KeyStatus.ACTIVE
+- **Release:** https://github.com/uSipipo-Team/usipipo-backend/releases/tag/v0.11.0
 
 ### **Backend v0.10.0** (Telegram Bot Invisible Authentication)
 - **NEW**: POST /auth/telegram/auto-register endpoint

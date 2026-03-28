@@ -250,5 +250,7 @@ POST /api/v1/auth/refresh
 **Telegram Bot Auth:** 100% COMPLETE ✅ (v0.1.0)
 **Telegram Bot VPN Keys:** 100% COMPLETE ✅ (v0.3.0)
 **Telegram Bot Operations:** 100% COMPLETE ✅ (v0.4.0)
-**Integration Tests:** 149 tests (149 passed) ✅
-**Next:** Consumption Billing (Phase 4)
+**Telegram Bot Consumption:** 100% COMPLETE ✅ (v0.5.0)
+**Integration Tests:** 150 tests (150 passed) ✅
+**Legacy Bot Migration:** ~45% complete (45/92 files)
+**Next:** Data Packages / Buy GB (Phase 5)

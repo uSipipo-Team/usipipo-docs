@@ -6,7 +6,7 @@
 **Latest Releases:**
 - Main Bot v1.2.0 - MainMenuKeyboard + Soporte ✅
 - Support Bot v0.2.0 - Welcome Menu + Deep Link ✅
-- VPN Agent v0.1.18 - Rate Limiting + wgctrl ✅
+- VPN Agent v0.1.19 - Build Fixes ✅
 - Commons v0.13.0 - Server Entity + ServerStatus ✅
 
 ---
@@ -60,6 +60,19 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 ---
 
 ## 🎉 LATEST RELEASES (2026-03-29)
+
+### **VPN Agent v0.1.19** (Build Fixes)
+
+**What's New:**
+- ✅ **FIX**: Remove unused `github.com/yuehang/log` dependency causing CI cascade failure
+- ✅ **FIX**: Remove unused `time` import in wireguard.go
+- ✅ **FIX**: Fix int64/uint64 type conversion for wgctrl peer bytes (ReceiveBytes, TransmitBytes)
+- ✅ **FIX**: Dependency download failures in GitHub Actions
+- ✅ **CI Debug Workflow**: New skill for automated CI debugging (logs → systematic-debugging → brainstorming)
+
+**Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.1.19
+
+---
 
 ### **VPN Agent v0.1.18** (Rate Limiting + wgctrl Library)
 
@@ -514,13 +527,15 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - [x] **APIClient.delete() method**
 - [x] **GET /users/me endpoint**
 - [x] **Support Bot systemd service** habilitado
-- [x] **VPN Agent created & released (v0.1.18)**
+- [x] **VPN Agent created & released (v0.1.19)**
 - [x] **VPN Agent documentation complete**
 - [x] **Install script with auto-update**
 - [x] **Rate limiting for production security**
 - [x] **wgctrl library for WireGuard** (no shell commands)
 - [x] **Generic usipipo user creation**
 - [x] **Sudoers configuration for WireGuard**
+- [x] **Build errors fixed** (unused imports, type conversions)
+- [x] **CI Debug Workflow skill** created
 
 ---
 
@@ -577,7 +592,7 @@ usipipovpnapp/
 **Backend Status:** 100% COMPLETE ✅ (v0.11.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.18)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.19)
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅
 **Tests:** 348 total (348 passed) ✅

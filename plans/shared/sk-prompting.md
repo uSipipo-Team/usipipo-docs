@@ -46,7 +46,7 @@
   - Production ready (systemd service)
 
 #### ✅ VPN Agent Architecture (NUEVO!):
-- **usipipo-agent** - v0.1.18 ✅
+- **usipipo-agent** - v0.1.19 ✅
   - Go 1.21+ con Gin framework
   - WireGuard con wgctrl library oficial
   - Outline Manager API integration
@@ -56,6 +56,7 @@
   - GitHub Actions CI/CD
   - Systemd service ready
   - Install script con auto-update
+  - **FIX v0.1.19**: Build errors (unused time import, int64/uint64 conversion)
 
 #### ✅ Infraestructura Completada:
 - **Backend API** v0.11.0 - Running on port 8001 ✅
@@ -76,6 +77,13 @@
 ---
 
 ## 🎉 LATEST RELEASES (2026-03-29)
+
+### **VPN Agent v0.1.19** (Build Fixes)
+- **FIX**: Remove unused `github.com/yuehang/log` dependency causing CI cascade failure
+- **FIX**: Remove unused `time` import in wireguard.go
+- **FIX**: Fix int64/uint64 type conversion for wgctrl peer bytes (ReceiveBytes, TransmitBytes)
+- **FIX**: Dependency download failures in GitHub Actions
+- **Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.1.19
 
 ### **VPN Agent v0.1.18** (Rate Limiting + wgctrl Library)
 - **NEW**: Rate limiting con token bucket algorithm (10 RPS, burst 20)
@@ -537,7 +545,7 @@ POST /api/v1/metrics/agents/{server_id}
 **Backend Status:** 100% COMPLETE ✅ (v0.11.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.18)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.19)
 **TronDealer Webhook:** COMPLETE ✅
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅

@@ -6,7 +6,7 @@
 **Latest Releases:**
 - Main Bot v1.2.0 - MainMenuKeyboard + Soporte ✅
 - Support Bot v0.2.0 - Welcome Menu + Deep Link ✅
-- VPN Agent v0.1.19 - Build Fixes ✅
+- VPN Agent v0.1.20 - Rebuild Release (Assets Fix) ✅
 - Commons v0.13.0 - Server Entity + ServerStatus ✅
 
 ---
@@ -38,10 +38,11 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 | Component | Version | Purpose | Status |
 |-----------|---------|---------|--------|
-| **usipipo-agent** | v0.1.18 | Multi-country VPN orchestration | ✅ Production |
+| **usipipo-agent** | v0.1.20 | Multi-country VPN orchestration | ✅ Production (assets fix) |
 | **wgctrl library** | v0.0.0-20241231184526 | Official WireGuard Go library | ✅ Integrated |
 | **Rate Limiting** | 10 RPS, burst 20 | DDoS/brute force protection | ✅ Enabled |
 | **Install Script** | v3.0 | Auto-install + auto-update | ✅ Functional |
+| **Install Script** | v3.1 | --update flag for updates | ✅ Functional |
 
 ### **Legacy Bot Migration**
 - **Source:** `/home/mowgli/usipipobot/telegram_bot/` (92 Python files)
@@ -61,6 +62,23 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 ## 🎉 LATEST RELEASES (2026-03-29)
 
+### **VPN Agent v0.1.20** (Rebuild Release - Assets Fix)
+
+**What's New:**
+- ✅ **NEW**: Rebuild de v0.1.19 con assets correctamente subidos
+- ✅ **FIX**: Missing assets en GitHub Releases (timing issue en GitHub Actions)
+- **PROBLEM**: v0.1.17-v0.1.19 releases sin binarios (workflow success pero assets no aparecieron)
+- **ROOT CAUSE**: Release publicado manualmente después del workflow causó release "nuevo" sin assets
+- **SOLUTION**: Nuevo tag v0.1.20 disparó workflow correctamente, 8 assets subidos exitosamente
+- **ASSETS**: install.sh, SHA256SUMS, 6 binarios (linux/darwin/windows × amd64/arm64)
+- **INSTALL**: `curl -fsSL https://github.com/uSipipo-Team/usipipo-agent/releases/latest/download/install.sh | bash`
+- **UPDATE**: `sudo /opt/usipipo-agent/install.sh --update`
+- **TESTED**: Update functionality working correctly (v0.1.19 → v0.1.20)
+
+**Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.1.20
+
+---
+
 ### **VPN Agent v0.1.19** (Build Fixes)
 
 **What's New:**
@@ -69,6 +87,7 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - ✅ **FIX**: Fix int64/uint64 type conversion for wgctrl peer bytes (ReceiveBytes, TransmitBytes)
 - ✅ **FIX**: Dependency download failures in GitHub Actions
 - ✅ **CI Debug Workflow**: New skill for automated CI debugging (logs → systematic-debugging → brainstorming)
+- ⚠️ **NOTE**: Assets missing en release (usar v0.1.20 en su lugar)
 
 **Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.1.19
 
@@ -527,15 +546,17 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - [x] **APIClient.delete() method**
 - [x] **GET /users/me endpoint**
 - [x] **Support Bot systemd service** habilitado
-- [x] **VPN Agent created & released (v0.1.19)**
+- [x] **VPN Agent created & released (v0.1.20)**
 - [x] **VPN Agent documentation complete**
-- [x] **Install script with auto-update**
+- [x] **Install script with auto-update (--update flag)**
 - [x] **Rate limiting for production security**
 - [x] **wgctrl library for WireGuard** (no shell commands)
 - [x] **Generic usipipo user creation**
 - [x] **Sudoers configuration for WireGuard**
 - [x] **Build errors fixed** (unused imports, type conversions)
 - [x] **CI Debug Workflow skill** created
+- [x] **GitHub Release assets fix** (v0.1.20 rebuild con 8 assets subidos)
+- [x] **Install script tested** (download, update functionality working)
 
 ---
 
@@ -592,7 +613,7 @@ usipipovpnapp/
 **Backend Status:** 100% COMPLETE ✅ (v0.11.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.19)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.20 - Release con assets completos)
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅
 **Tests:** 348 total (348 passed) ✅

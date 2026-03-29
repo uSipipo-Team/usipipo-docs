@@ -46,7 +46,7 @@
   - Production ready (systemd service)
 
 #### ✅ VPN Agent Architecture (NUEVO!):
-- **usipipo-agent** - v0.1.19 ✅
+- **usipipo-agent** - v0.1.20 ✅ (Release con assets completos)
   - Go 1.21+ con Gin framework
   - WireGuard con wgctrl library oficial
   - Outline Manager API integration
@@ -55,8 +55,9 @@
   - Multi-platform builds (linux, windows, darwin × amd64, arm64)
   - GitHub Actions CI/CD
   - Systemd service ready
-  - Install script con auto-update
+  - Install script con auto-update (--update flag)
   - **FIX v0.1.19**: Build errors (unused time import, int64/uint64 conversion)
+  - **FIX v0.1.20**: Missing assets en GitHub Releases (timing issue en GitHub Actions)
 
 #### ✅ Infraestructura Completada:
 - **Backend API** v0.11.0 - Running on port 8001 ✅
@@ -78,11 +79,23 @@
 
 ## 🎉 LATEST RELEASES (2026-03-29)
 
+### **VPN Agent v0.1.20** (Rebuild Release - Assets Fix)
+- **NEW**: Rebuild de v0.1.19 con assets correctamente subidos
+- **FIX**: Missing assets en GitHub Releases (timing issue en GitHub Actions)
+- **PROBLEM**: v0.1.17-v0.1.19 releases sin binarios (workflow success pero assets no aparecieron)
+- **ROOT CAUSE**: Release publicado manualmente después del workflow causó release "nuevo" sin assets
+- **SOLUTION**: Nuevo tag v0.1.20 disparó workflow correctamente, 8 assets subidos exitosamente
+- **ASSETS**: install.sh, SHA256SUMS, 6 binarios (linux/darwin/windows × amd64/arm64)
+- **INSTALL**: `curl -fsSL https://github.com/uSipipo-Team/usipipo-agent/releases/latest/download/install.sh | bash`
+- **UPDATE**: `sudo /opt/usipipo-agent/install.sh --update`
+- **Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.1.20
+
 ### **VPN Agent v0.1.19** (Build Fixes)
 - **FIX**: Remove unused `github.com/yuehang/log` dependency causing CI cascade failure
 - **FIX**: Remove unused `time` import in wireguard.go
 - **FIX**: Fix int64/uint64 type conversion for wgctrl peer bytes (ReceiveBytes, TransmitBytes)
 - **FIX**: Dependency download failures in GitHub Actions
+- **⚠️ NOTE**: Assets missing en release (usar v0.1.20 en su lugar)
 - **Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.1.19
 
 ### **VPN Agent v0.1.18** (Rate Limiting + wgctrl Library)
@@ -499,13 +512,16 @@ POST /api/v1/metrics/agents/{server_id}
 - [x] **APIClient.delete() method**
 - [x] **GET /users/me endpoint**
 - [x] **Support Bot systemd service** habilitado
-- [x] **VPN Agent** created & released (v0.1.18)
+- [x] **VPN Agent** created & released (v0.1.20 - assets fix)
 - [x] **VPN Agent documentation** complete
-- [x] **Install script** with auto-update
+- [x] **Install script** with auto-update (--update flag)
 - [x] **Rate limiting** for production security
 - [x] **wgctrl library** for WireGuard (no shell commands)
 - [x] **Generic usipipo user** creation
 - [x] **Sudoers configuration** for WireGuard
+- [x] **Build errors fixed** (unused imports, type conversions)
+- [x] **GitHub Release assets fix** (v0.1.20 rebuild con 8 assets subidos)
+- [x] **Install script tested** (download, update functionality working)
 
 ---
 
@@ -545,7 +561,7 @@ POST /api/v1/metrics/agents/{server_id}
 **Backend Status:** 100% COMPLETE ✅ (v0.11.0)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.19)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.1.20 - Release con assets completos)
 **TronDealer Webhook:** COMPLETE ✅
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅

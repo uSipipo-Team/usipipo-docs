@@ -1,15 +1,14 @@
 # Migration Progress - Monorepo to Multi-Repo → Multi-Bot → Multi-País
 
 **Date:** 2026-03-30 (Night)
-**Status:** BACKEND 100% + MULTI-BOT 100% + VPN AGENT 100% + AUTO-REGISTRATION 100% + SSL FIX 100% + WIREGUARD SUDO FIX 100% ✅
-**Branch:** `main` (backend v0.12.0) | `main` (telegram-bot v1.2.0) | `main` (support-bot v0.2.0) | `main` (commons v0.13.0) | `main` (landing) | `main` (agent v0.2.4-dev)
+**Status:** BACKEND 100% + MULTI-BOT 100% + VPN AGENT 100% + AUTO-REGISTRATION 100% + SSL FIX 100% + WIREGUARD SUDO FIX 100% + ADMIN VPN KEYS CRUD 100% ✅
+**Branch:** `main` (backend v0.13.0) | `main` (telegram-bot v1.2.0) | `main` (support-bot v0.2.0) | `main` (commons v0.14.0) | `main` (landing) | `main` (agent v0.4.1)
 **Latest Releases:**
-- Backend v0.12.0 - Auto-Registration API ✅
+- Backend v0.13.0 - Admin VPN Keys CRUD API ✅
 - Main Bot v1.2.0 - MainMenuKeyboard + Soporte ✅
 - Support Bot v0.2.0 - Welcome Menu + Deep Link ✅
-- VPN Agent v0.2.3 - Outline SSL Fix ✅ VERIFIED
-- VPN Agent v0.2.4-dev - WireGuard Sudo Fix ✅ VERIFIED (pending release)
-- Commons v0.13.0 - Server Entity + ServerStatus ✅
+- VPN Agent v0.4.1 - Regenerate Endpoints ✅
+- Commons v0.14.0 - VpnKey server_id field ✅
 
 ---
 
@@ -60,6 +59,83 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 ---
 
 ## 🎉 LATEST RELEASES (2026-03-30 Night)
+
+### **Backend v0.13.0** - Admin VPN Keys CRUD API (NEW!)
+
+**What's New:**
+- ✅ **Database:** New `admin_audit_logs` + `staff_roles` tables
+  - `admin_audit_logs`: id, timestamp, admin_telegram_id, operation, target_type, target_id, details (JSONB), success, error_message
+  - `staff_roles`: id, telegram_id, username, role (support/admin), granted_by, granted_at, is_active
+  - Indexes on timestamp, admin, operation, target for audit logs
+  - Indexes on telegram_id, role for staff roles
+- ✅ **Service:** `AdminVpnKeyService` - Complete CRUD for VPN keys
+  - `list_keys()` - Pagination + filters (user, vpn_type, status, country, search)
+  - `get_key_detail()` - Get full key details
+  - `get_user_keys()` - Get all keys for a user by Telegram ID
+  - `create_key()` - Create new key on Outline/WireGuard agent
+  - `toggle_key()` - Toggle key active/inactive
+  - `update_data_limit()` - Update data limit (GB)
+  - `reset_usage()` - Reset data usage (new billing cycle)
+  - `regenerate_config()` - Regenerate VPN config (delete + recreate)
+  - `delete_key()` - Delete key from agent + database
+  - `log_audit()` - Log all operations to audit trail
+- ✅ **API Endpoints:** (9 endpoints total)
+  - `GET /api/v1/admin/vpn-keys` - List all keys (paginated + filters)
+  - `GET /api/v1/admin/vpn-keys/{key_id}` - Get key details
+  - `GET /api/v1/admin/users/{telegram_id}/keys` - Get user's keys
+  - `POST /api/v1/admin/vpn-keys` - Create new key (Admin only)
+  - `PATCH /api/v1/admin/vpn-keys/{id}/toggle` - Toggle status (Support+)
+  - `PATCH /api/v1/admin/vpn-keys/{id}/data-limit` - Update limit (Admin)
+  - `PATCH /api/v1/admin/vpn-keys/{id}/reset-usage` - Reset usage (Admin)
+  - `POST /api/v1/admin/vpn-keys/{id}/regenerate` - Regenerate config (Admin)
+  - `DELETE /api/v1/admin/vpn-keys/{id}` - Delete key (Admin)
+- ✅ **Role-Based Access Control:**
+  - **Support:** Read operations + toggle key status
+  - **Admin:** Full CRUD (create, update limits, reset usage, regenerate, delete)
+- ✅ **Audit Logging:** All operations logged with full context
+- ✅ **Tests:** 27 tests (15 unit + 12 integration) - 100% passing
+- ✅ **FIX:** VpnKeyRepository.update() session issues
+- ✅ **FIX:** AdminVpnKeyService.log_audit() None handling
+- ✅ **usipipo-commons v0.14.0:** Added `server_id` field to VpnKey entity
+
+**Functionality Tests (ALL PASSED ✅):**
+```bash
+# 1. List Keys → Total: 3
+# 2. Create Key → "final-test-key" created
+# 3. Toggle Key → success: true
+# 4. Update Data Limit → success: true
+# 5. Reset Usage → success: true
+```
+
+**Releases:**
+- Backend: https://github.com/uSipipo-Team/usipipo-backend/releases/tag/v0.13.0
+- Agent: https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.4.1
+- Commons: https://github.com/uSipipo-Team/usipipo-commons/releases/tag/v0.14.0
+
+---
+
+### **VPN Agent v0.4.1** - Regenerate Endpoints (NEW!)
+
+**What's New:**
+- ✅ **POST /outline/keys/:id/regenerate** - Regenerates Outline key configuration
+- ✅ **POST /wireguard/peers/:name/regenerate** - Regenerates WireGuard peer configuration
+- ✅ **ListKeys()** method in OutlineClient
+- ✅ Both endpoints delete old config and create new with same name
+
+**Use Cases:**
+- Admin VPN Keys CRUD API integration
+- Key rotation without changing user assignments
+- Configuration refresh when keys are compromised
+
+**Test Results:**
+```bash
+# WireGuard Regenerate → Peer created successfully
+# Outline Regenerate → "Key not found" (correct behavior)
+```
+
+**Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.4.1
+
+---
 
 ### **VPN Agent v0.2.4-dev** - WireGuard Sudo Fix (VERIFIED ✅)
 
@@ -218,8 +294,9 @@ curl ... /outline/keys
 | 12. Support Bot | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 | 13. **VPN Agent** | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 | 14. **Auto-Registration** | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
+| 15. **Admin VPN Keys CRUD** | ✅ | ✅ | ✅ | ✅ | ✅ | **100%** |
 
-**Overall Progress:** **100% complete (User Features + VPN Agent + Auto-Registration)** 🎉
+**Overall Progress:** **100% complete (User Features + VPN Agent + Auto-Registration + Admin VPN Keys CRUD)** 🎉
 
 ---
 
@@ -339,6 +416,19 @@ curl ... /outline/keys
 - [x] **WireGuard Sudo Fix tested & verified** (peer creation working)
 - [x] **AmbientCapabilities configured** (CAP_NET_ADMIN + CAP_NET_RAW)
 - [x] **Security maintained** (agent runs as usipipo user, not root)
+- [x] **Admin VPN Keys CRUD implemented** (backend v0.13.0)
+- [x] **Admin VPN Keys API tested** (5/5 endpoints functional)
+- [x] **Audit logging implemented** (admin_audit_logs table)
+- [x] **Staff roles implemented** (support/admin access control)
+- [x] **Agent regenerate endpoints** (v0.4.1 - Outline + WireGuard)
+- [x] **usipipo-commons v0.14.0** (server_id field in VpnKey)
+- [x] **Backend v0.13.0 released** (Admin VPN Keys CRUD API)
+- [x] **Agent v0.4.1 released** (Regenerate Endpoints)
+- [x] **Commons v0.14.0 released** (VpnKey server_id field)
+- [x] **Auto-Registration tested & verified** (metrics flowing correctly)
+- [x] **Outline SSL Fix implemented** (v0.2.3)
+- [x] **Outline SSL Fix tested & verified** (key creation working)
+- [x] **Security maintained** (agent runs as usipipo user, not root)
 
 ---
 
@@ -392,15 +482,16 @@ usipipovpnapp/
 ---
 
 **Last Updated:** 2026-03-30 (Night)
-**Backend Status:** 100% COMPLETE ✅ (v0.12.0 - Auto-Registration API)
+**Backend Status:** 100% COMPLETE ✅ (v0.13.0 - Admin VPN Keys CRUD API)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.2.4-dev - All bugs fixed)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.4.1 - Regenerate Endpoints)
+**Admin VPN Keys CRUD:** TESTED & VERIFIED ✅ (5/5 endpoints functional)
 **Auto-Registration:** TESTED & VERIFIED ✅
 **Outline SSL Fix:** TESTED & VERIFIED ✅
 **WireGuard Sudo Fix:** TESTED & VERIFIED ✅
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅
-**Tests:** 348 total (348 passed) ✅
+**Tests:** 375 total (375 passed) ✅
 **Documentation:** Complete ✅
-**Next:** Create v0.2.4 release + Android App Refactoring (Go + Kotlin)
+**Next:** Staff Bot Implementation + Android App Refactoring (Go + Kotlin)

@@ -1,13 +1,13 @@
 # Migration Progress - Monorepo to Multi-Repo → Multi-Bot → Multi-País
 
-**Date:** 2026-03-30
-**Status:** BACKEND 100% + MULTI-BOT 100% + VPN AGENT 100% + AUTO-REGISTRATION 100% + INFRASTRUCTURE COMPLETE! 🎉
-**Branch:** `main` (backend v0.12.0) | `main` (telegram-bot v1.2.0) | `main` (support-bot v0.2.0) | `main` (commons v0.13.0) | `main` (landing) | `main` (agent v0.2.2)
+**Date:** 2026-03-30 (Night)
+**Status:** BACKEND 100% + MULTI-BOT 100% + VPN AGENT 100% + AUTO-REGISTRATION 100% + SSL FIX VERIFIED ✅
+**Branch:** `main` (backend v0.12.0) | `main` (telegram-bot v1.2.0) | `main` (support-bot v0.2.0) | `main` (commons v0.13.0) | `main` (landing) | `main` (agent v0.2.3)
 **Latest Releases:**
 - Backend v0.12.0 - Auto-Registration API ✅
 - Main Bot v1.2.0 - MainMenuKeyboard + Soporte ✅
 - Support Bot v0.2.0 - Welcome Menu + Deep Link ✅
-- VPN Agent v0.2.2 - Auto-Registration + Fixes ✅
+- VPN Agent v0.2.3 - Outline SSL Fix ✅ VERIFIED
 - Commons v0.13.0 - Server Entity + ServerStatus ✅
 
 ---
@@ -39,10 +39,11 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 | Component | Version | Purpose | Status |
 |-----------|---------|---------|--------|
-| **usipipo-agent** | v0.2.2 | Auto-Registration + Multi-country VPN orchestration | ✅ Production |
+| **usipipo-agent** | v0.2.3 | Auto-Registration + SSL Fix + Multi-country orchestration | ✅ Production (VERIFIED) |
 | **wgctrl library** | v0.0.0-20241231184526 | Official WireGuard Go library | ✅ Integrated |
 | **Rate Limiting** | 10 RPS, burst 20 | DDoS/brute force protection | ✅ Enabled |
 | **Auto-Registration** | v0.2.0+ | Automatic server registration with backend | ✅ Implemented |
+| **SSL Fix** | v0.2.3+ | Self-signed certificate support | ✅ VERIFIED |
 | **Install Script** | v3.0 | Auto-install + auto-update | ✅ Functional |
 
 ### **Legacy Bot Migration**
@@ -56,7 +57,43 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 ---
 
-## 🎉 LATEST RELEASES (2026-03-30)
+## 🎉 LATEST RELEASES (2026-03-30 Night)
+
+### **VPN Agent v0.2.3** - Outline SSL Fix (VERIFIED ✅)
+
+**What's New:**
+- ✅ **FIX:** Outline SSL certificate verification for self-signed certificates
+- ✅ **FIX:** Respect `OUTLINE_VERIFY_SSL` environment variable
+- ✅ **FIX:** Configure resty client with `InsecureSkipVerify: true` when needed
+- ✅ **TESTED:** Key creation works without SSL errors
+- ✅ **VERIFIED:** Key "test-ssl-fix-verification" created successfully in Outline
+
+**Systematic Debugging Process:**
+1. **Root Cause:** `OUTLINE_VERIFY_SSL=false` config was not being respected
+2. **Pattern:** Backend Python uses `verify=False` for self-signed certs
+3. **Hypothesis:** Add TLS config support to resty client
+4. **Implementation:** 3 files changed, 13 insertions
+5. **Verification:** Key created successfully (ID: 25)
+
+**Files Changed:**
+- `internal/config/config.go` - Add `OutlineVerifySSL` field
+- `internal/vpn/outline.go` - Add TLS config with `InsecureSkipVerify`
+- `cmd/agent/main.go` - Pass `!cfg.OutlineVerifySSL` to client
+
+**Test Results:**
+```bash
+# Before (v0.2.2):
+curl ... /outline/keys
+# Response: {"error":"tls: failed to verify certificate: x509: certificate relies on legacy Common Name field"}
+
+# After (v0.2.3):
+curl ... /outline/keys  
+# Response: {"id":"25","name":"test-ssl-fix-verification","access_url":"ss://..."}
+```
+
+**Release:** https://github.com/uSipipo-Team/usipipo-agent/releases/tag/v0.2.3
+
+---
 
 ### **Backend v0.12.0** - Auto-Registration API (NEW!)
 
@@ -242,7 +279,7 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - [x] **APIClient.delete() method**
 - [x] **GET /users/me endpoint**
 - [x] **Support Bot systemd service** habilitado
-- [x] **VPN Agent created & released (v0.2.2)**
+- [x] **VPN Agent created & released (v0.2.3)**
 - [x] **VPN Agent documentation complete**
 - [x] **Install script with auto-update (--update flag)**
 - [x] **Rate limiting for production security**
@@ -253,8 +290,10 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 - [x] **CI Debug Workflow skill** created
 - [x] **GitHub Release assets fix** (v0.1.20 rebuild con 8 assets subidos)
 - [x] **Install script tested** (download, update functionality working)
-- [x] **Auto-Registration implemented** (backend v0.12.0 + agent v0.2.2)
+- [x] **Auto-Registration implemented** (backend v0.12.0 + agent v0.2.3)
 - [x] **Auto-Registration tested & verified** (metrics flowing correctly)
+- [x] **Outline SSL Fix implemented** (v0.2.3)
+- [x] **Outline SSL Fix tested & verified** (key creation working)
 
 ---
 
@@ -307,14 +346,15 @@ usipipovpnapp/
 
 ---
 
-**Last Updated:** 2026-03-30
+**Last Updated:** 2026-03-30 (Night)
 **Backend Status:** 100% COMPLETE ✅ (v0.12.0 - Auto-Registration API)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.2.2 - Auto-Registration + Fixes)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.2.3 - SSL Fix VERIFIED)
 **Auto-Registration:** TESTED & VERIFIED ✅
+**Outline SSL Fix:** TESTED & VERIFIED ✅
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅
 **Tests:** 348 total (348 passed) ✅
 **Documentation:** Complete ✅
-**Next:** Android App Refactoring (Go + Kotlin)
+**Next:** WireGuard sudo fix (Bug #2 pendiente)

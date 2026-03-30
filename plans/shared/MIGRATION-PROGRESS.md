@@ -1,13 +1,14 @@
 # Migration Progress - Monorepo to Multi-Repo → Multi-Bot → Multi-País
 
 **Date:** 2026-03-30 (Night)
-**Status:** BACKEND 100% + MULTI-BOT 100% + VPN AGENT 100% + AUTO-REGISTRATION 100% + SSL FIX VERIFIED ✅
-**Branch:** `main` (backend v0.12.0) | `main` (telegram-bot v1.2.0) | `main` (support-bot v0.2.0) | `main` (commons v0.13.0) | `main` (landing) | `main` (agent v0.2.3)
+**Status:** BACKEND 100% + MULTI-BOT 100% + VPN AGENT 100% + AUTO-REGISTRATION 100% + SSL FIX 100% + WIREGUARD SUDO FIX 100% ✅
+**Branch:** `main` (backend v0.12.0) | `main` (telegram-bot v1.2.0) | `main` (support-bot v0.2.0) | `main` (commons v0.13.0) | `main` (landing) | `main` (agent v0.2.4-dev)
 **Latest Releases:**
 - Backend v0.12.0 - Auto-Registration API ✅
 - Main Bot v1.2.0 - MainMenuKeyboard + Soporte ✅
 - Support Bot v0.2.0 - Welcome Menu + Deep Link ✅
 - VPN Agent v0.2.3 - Outline SSL Fix ✅ VERIFIED
+- VPN Agent v0.2.4-dev - WireGuard Sudo Fix ✅ VERIFIED (pending release)
 - Commons v0.13.0 - Server Entity + ServerStatus ✅
 
 ---
@@ -39,11 +40,12 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 
 | Component | Version | Purpose | Status |
 |-----------|---------|---------|--------|
-| **usipipo-agent** | v0.2.3 | Auto-Registration + SSL Fix + Multi-country orchestration | ✅ Production (VERIFIED) |
+| **usipipo-agent** | v0.2.4-dev | Auto-Registration + SSL Fix + WireGuard Sudo Fix | ✅ Production (VERIFIED) |
 | **wgctrl library** | v0.0.0-20241231184526 | Official WireGuard Go library | ✅ Integrated |
 | **Rate Limiting** | 10 RPS, burst 20 | DDoS/brute force protection | ✅ Enabled |
 | **Auto-Registration** | v0.2.0+ | Automatic server registration with backend | ✅ Implemented |
 | **SSL Fix** | v0.2.3+ | Self-signed certificate support | ✅ VERIFIED |
+| **WireGuard Sudo Fix** | v0.2.4-dev+ | AmbientCapabilities for netlink | ✅ VERIFIED |
 | **Install Script** | v3.0 | Auto-install + auto-update | ✅ Functional |
 
 ### **Legacy Bot Migration**
@@ -58,6 +60,45 @@ Migrating backend logic from monorepo (`/home/mowgli/usipipobot/`) to separated 
 ---
 
 ## 🎉 LATEST RELEASES (2026-03-30 Night)
+
+### **VPN Agent v0.2.4-dev** - WireGuard Sudo Fix (VERIFIED ✅)
+
+**What's New:**
+- ✅ **FIX:** WireGuard peer creation "operation not permitted" error
+- ✅ **FIX:** Add `AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW` to systemd service
+- ✅ **TESTED:** WireGuard peer creation works without errors
+- ✅ **VERIFIED:** Peer "test-sudo-fix-wg-peer" created successfully
+
+**Systematic Debugging Process:**
+1. **Root Cause:** `wgctrl.ConfigureDevice()` requires `CAP_NET_ADMIN` capability for netlink operations
+2. **Pattern:** systemd AmbientCapabilities is the secure way to grant capabilities
+3. **Hypothesis:** Add capabilities to service file instead of running as root
+4. **Implementation:** Updated `/etc/systemd/system/usipipo-agent.service`
+5. **Verification:** Peer created successfully, visible in `wg show wg0`
+
+**Files Changed:**
+- `/etc/systemd/system/usipipo-agent.service` - Added `AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW`
+
+**Test Results:**
+```bash
+# Before (v0.2.3):
+curl ... /wireguard/peers
+# Response: {"error":"failed to configure device: operation not permitted"}
+
+# After (v0.2.4-dev):
+curl ... /wireguard/peers  
+# Response: {"config":"[Interface]...","public_key":"gYZWQp...","ip_address":"10.0.0.2"}
+```
+
+**Security Notes:**
+- ✅ Agent still runs as `usipipo` user (not root)
+- ✅ Only specific capabilities granted (CAP_NET_ADMIN, CAP_NET_RAW)
+- ✅ No shell access or arbitrary command execution
+- ✅ More secure than running as root
+
+**Release:** Pending (v0.2.4-dev - fix applied directly to server)
+
+---
 
 ### **VPN Agent v0.2.3** - Outline SSL Fix (VERIFIED ✅)
 
@@ -294,6 +335,10 @@ curl ... /outline/keys
 - [x] **Auto-Registration tested & verified** (metrics flowing correctly)
 - [x] **Outline SSL Fix implemented** (v0.2.3)
 - [x] **Outline SSL Fix tested & verified** (key creation working)
+- [x] **WireGuard Sudo Fix implemented** (v0.2.4-dev)
+- [x] **WireGuard Sudo Fix tested & verified** (peer creation working)
+- [x] **AmbientCapabilities configured** (CAP_NET_ADMIN + CAP_NET_RAW)
+- [x] **Security maintained** (agent runs as usipipo user, not root)
 
 ---
 
@@ -350,11 +395,12 @@ usipipovpnapp/
 **Backend Status:** 100% COMPLETE ✅ (v0.12.0 - Auto-Registration API)
 **Multi-Client Status:** 100% COMPLETE ✅
 **Multi-Bot Status:** 100% COMPLETE ✅
-**VPN Agent Status:** 100% COMPLETE ✅ (v0.2.3 - SSL Fix VERIFIED)
+**VPN Agent Status:** 100% COMPLETE ✅ (v0.2.4-dev - All bugs fixed)
 **Auto-Registration:** TESTED & VERIFIED ✅
 **Outline SSL Fix:** TESTED & VERIFIED ✅
+**WireGuard Sudo Fix:** TESTED & VERIFIED ✅
 **Main Bot:** v1.2.0 (MainMenuKeyboard + Soporte) ✅
 **Support Bot:** v0.2.0 (Welcome Menu + Deep Link) ✅
 **Tests:** 348 total (348 passed) ✅
 **Documentation:** Complete ✅
-**Next:** WireGuard sudo fix (Bug #2 pendiente)
+**Next:** Create v0.2.4 release + Android App Refactoring (Go + Kotlin)

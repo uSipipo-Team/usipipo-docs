@@ -401,6 +401,95 @@ Authorization: Bearer <access_token>
 
 ---
 
+## 🌐 Server Selection
+
+### **GET /api/v1/vpn/servers**
+
+Get list of available VPN servers for user selection with real-time load indicators.
+
+**Authentication:** Required (user JWT token)
+
+**Query Parameters:**
+- `protocol` (required, string): Protocol type - `"outline"` or `"wireguard"`
+
+**Success Response (200 OK):**
+
+```json
+{
+  "servers": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "US-East-1",
+      "country_code": "US",
+      "country_name": "United States",
+      "city": "New York",
+      "load_percentage": 23,
+      "load_level": "low",
+      "status": "online"
+    },
+    {
+      "id": "660e8400-e29b-41d4-a716-446655440001",
+      "name": "DE-Frankfurt-2",
+      "country_code": "DE",
+      "country_name": "Germany",
+      "city": "Frankfurt",
+      "load_percentage": 67,
+      "load_level": "medium",
+      "status": "online"
+    }
+  ],
+  "recommended": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "US-East-1",
+      "country_code": "US",
+      "country_name": "United States",
+      "city": "New York",
+      "load_percentage": 23,
+      "load_level": "low",
+      "status": "online"
+    }
+  ]
+}
+```
+
+**Response Fields:**
+- `servers`: Array of all available servers matching protocol
+- `recommended`: Array of top 5 servers with lowest load (best choices for users)
+- `load_percentage`: Server load as percentage (0-100)
+- `load_level`: Human-readable load indicator with emoji:
+  - 🟢 `"low"`: 0-50% connections used
+  - 🟡 `"medium"`: 51-80% connections used
+  - 🔴 `"high"`: 81-100% connections used
+- `status`: Server status (`"online"`, `"offline"`, `"maintenance"`)
+
+**Error Responses:**
+
+**400 Bad Request - Invalid Protocol**
+```json
+{
+  "detail": "Invalid protocol: invalid. Must be 'outline' or 'wireguard'"
+}
+```
+
+**401 Unauthorized**
+```json
+{
+  "detail": "Not authenticated"
+}
+```
+
+**Example Request:**
+```bash
+curl -X GET "http://localhost:8000/api/v1/vpn/servers?protocol=outline" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+**Use Case:**
+This endpoint is used by the Telegram bot to display available servers to users during VPN key creation. Users can see server load in real-time and select the best server for their needs. The `recommended` array helps users quickly identify the least loaded servers for optimal performance.
+
+---
+
 ## 💳 Pagos
 
 ### **Listar Pagos**
@@ -1200,4 +1289,4 @@ Content-Type: application/json
 
 ---
 
-**Última actualización:** 2026-03-27
+**Última actualización:** 2026-03-31
